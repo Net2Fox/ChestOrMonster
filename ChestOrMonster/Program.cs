@@ -91,19 +91,7 @@ class Program
                 Console.WriteLine("Оружие");
                 break;
             case HealingPotion:
-                Console.WriteLine($"Вам выпало {item.Name}!");
-                Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp} HP. Жотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
-                int playerChoice = UserChoice(1, 2);
-                switch (playerChoice)
-                {
-                    case 1:
-                        _gameInstance.Player.Hp = 100;
-                        Console.WriteLine("Вы восстановили HP до максимума!");
-                        break;
-                    case 2:
-                        Console.WriteLine("Вы выкинули лечебное зелье.");
-                        break;
-                }
+                UseHealingPotion();
                 break;
         }
     }
@@ -129,6 +117,22 @@ class Program
                 continue;
             }
             return choiceNumber;
+        }
+    }
+
+    static void UseHealingPotion()
+    {
+        Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp} HP. Жотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
+        int playerChoice = UserChoice(1, 2);
+        switch (playerChoice)
+        {
+            case 1:
+                _gameInstance.Player.Hp = 100;
+                Console.WriteLine("Вы восстановили HP до максимума!");
+                break;
+            case 2:
+                Console.WriteLine("Вы выкинули лечебное зелье.");
+                break;
         }
     }
 }
