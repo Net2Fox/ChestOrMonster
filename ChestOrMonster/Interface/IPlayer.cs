@@ -2,8 +2,8 @@
 
 public interface IPlayer : IBaseEntity
 {
-    IBaseItem? Weapon  { get; set; }
-    IBaseItem? Armor { get; set; }
+    IWeapon? Weapon  { get; set; }
+    IArmor? Armor { get; set; }
 
     public void ChangeEquipment(IBaseItem item);
 }

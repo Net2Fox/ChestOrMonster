@@ -7,8 +7,8 @@ public class Player : IPlayer
 {
     public string Name { get; set; }
     public double Hp { get; set; } = _maxHp;
-    public IBaseItem? Weapon { get; set; } = null;
-    public IBaseItem? Armor { get; set; } = null;
+    public IWeapon? Weapon { get; set; } = null;
+    public IArmor? Armor { get; set; } = null;
     
     private static double _maxHp = 100;
 
