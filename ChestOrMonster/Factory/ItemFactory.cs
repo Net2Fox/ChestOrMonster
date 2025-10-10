@@ -43,7 +43,7 @@ public static class ItemFactory
     
     private static Armor CreateRandomArmor()
     {
-        var template = Armors[_random.Next(0, Weapons.Length)];
+        var template = Armors[_random.Next(0, Armors.Length)];
         return new Armor(template.Name, template.Def);
     }
 }
