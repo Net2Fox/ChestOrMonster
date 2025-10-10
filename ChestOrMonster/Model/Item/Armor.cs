@@ -4,8 +4,8 @@ namespace ChestOrMonster.Model.Item;
 
 public class Armor : IArmor
 {
-    public string Name { get; set; }
-    public double Def { get; set; }
+    public string Name { get; private set; }
+    public double Def { get; private set; }
 
     public Armor(string name, double def)
     {

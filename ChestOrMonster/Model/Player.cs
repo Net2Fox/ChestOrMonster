@@ -5,10 +5,10 @@ namespace ChestOrMonster.Model;
 
 public class Player : IPlayer
 {
-    public string Name { get; set; }
-    public double Hp { get; set; } = _maxHp;
-    public IWeapon? Weapon { get; set; } = null;
-    public IArmor? Armor { get; set; } = null;
+    public string Name { get; private set; }
+    public double Hp { get; private  set; } = _maxHp;
+    public IWeapon? Weapon { get; private set; } = null;
+    public IArmor? Armor { get; private set; } = null;
     
     private static double _maxHp = 100;
 

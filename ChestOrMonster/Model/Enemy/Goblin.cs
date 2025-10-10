@@ -4,10 +4,10 @@ namespace ChestOrMonster.Model.Enemy;
 
 public class Goblin : IBaseEnemy
 {
-    public string Name { get; set; } = "Гоблин";
-    public double Hp { get; set; }
-    public double Atk { get; set; }
-    public double Def { get; set; }
+    public string Name { get; private set; } = "Гоблин";
+    public double Hp { get; private set; }
+    public double Atk { get; private set; }
+    public double Def { get; private set; }
     
     public double Attack()
     {

@@ -4,9 +4,9 @@ namespace ChestOrMonster.Model;
 
 public class Game : IGame
 {
-    public int CurrentStep { get; set; }
-    public StepType CurrentStepType { get; set; }
-    public IPlayer Player { get; set; }
+    public int CurrentStep { get; private set; }
+    public StepType CurrentStepType { get; private set; }
+    public IPlayer Player { get; private set; }
     
     private static Random _random = new Random(DateTime.Now.Millisecond);
 
@@ -18,7 +18,7 @@ public class Game : IGame
     
     public void MoveStep()
     {
-        CurrentStep++;
+        CurrentStep += 1;
         CurrentStepType = (StepType)_random.Next(1, 3);
     }
 }

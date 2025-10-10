@@ -4,5 +4,5 @@ namespace ChestOrMonster.Model.Item;
 
 public class HealingPotion : IBaseItem
 {
-    public string Name { get; set; } = "Лечебное зелье";
+    public string Name { get; private set; } = "Лечебное зелье";
 }
