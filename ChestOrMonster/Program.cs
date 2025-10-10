@@ -79,7 +79,7 @@ class Program
                     StartFight();
                     break;
             }
-            Console.ReadKey();
+            Thread.Sleep(1000);
         }
     }
 
