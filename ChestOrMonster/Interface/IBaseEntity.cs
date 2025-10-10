@@ -2,8 +2,8 @@
 
 public interface IBaseEntity
 {
-    public string Name { get; set; }
-    public double Hp { get; set; }
+    public string Name { get; }
+    public double Hp { get; }
 
     public double Attack();
     public double Defend();

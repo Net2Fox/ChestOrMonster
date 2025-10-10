@@ -2,5 +2,5 @@
 
 public interface IBaseItem
 {
-    public string Name { get; set; }
+    public string Name { get; }
 }

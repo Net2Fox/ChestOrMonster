@@ -2,6 +2,6 @@
 
 public interface IBaseEnemy : IBaseEntity
 {
-    public double Atk { get; set; }
-    public double Def { get; set; }
+    public double Atk { get; }
+    public double Def { get; }
 }

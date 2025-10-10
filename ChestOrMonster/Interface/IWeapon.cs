@@ -2,5 +2,5 @@
 
 public interface IWeapon : IBaseItem
 {
-    public double Damage { get; set; }
+    public double Damage { get; }
 }

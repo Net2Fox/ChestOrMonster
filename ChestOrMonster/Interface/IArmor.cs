@@ -2,5 +2,5 @@
 
 public interface IArmor : IBaseItem
 {
-    public double Def { get; set; }
+    public double Def { get; }
 }

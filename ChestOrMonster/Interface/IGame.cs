@@ -4,9 +4,9 @@ namespace ChestOrMonster.Interface;
 
 public interface IGame
 {
-    public int CurrentStep { get; set; }
-    public StepType CurrentStepType { get; set; }
-    public IPlayer Player { get; set; }
+    public int CurrentStep { get; }
+    public StepType CurrentStepType { get; }
+    public IPlayer Player { get; }
     
     public void MoveStep();
 }
