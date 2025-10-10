@@ -65,9 +65,9 @@ class Program
 
     static void StartGame(string playerName)
     {
+        _gameInstance = new Game(playerName);
         while (true)
         {
-            _gameInstance = new Game(playerName);
             _gameInstance.MoveStep();
             Console.WriteLine($"Сейчас {_gameInstance.CurrentStep} ход.");
             switch (_gameInstance.CurrentStepType)
