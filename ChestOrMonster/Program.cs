@@ -114,7 +114,7 @@ class Program
                 continue;
             }
 
-            if (choiceNumber <= minChoice || choiceNumber >= maxChoice)
+            if (choiceNumber < minChoice || choiceNumber > maxChoice)
             {
                 continue;
             }
