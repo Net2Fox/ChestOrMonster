@@ -17,7 +17,7 @@ public class Player : IPlayer
         Name = name;
     }
 
-    public void ChangeEquipment(IBaseItem item)
+    public void UseItem(IBaseItem item)
     {
         switch (item)
         {
