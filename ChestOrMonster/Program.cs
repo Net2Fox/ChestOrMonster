@@ -1,4 +1,6 @@
-﻿using ChestOrMonster.Factory;
+﻿using System.Text;
+using ChestOrMonster.Factory;
+using ChestOrMonster.Interface;
 using ChestOrMonster.Model;
 using ChestOrMonster.Model.Enemy;
 using ChestOrMonster.Model.Item;
@@ -88,7 +90,7 @@ class Program
         switch (item)
         {
             case Weapon or Armor:
-                Console.WriteLine("Оружие");
+                ChangeEquipment(item);
                 break;
             case HealingPotion:
                 UseHealingPotion();
@@ -132,6 +134,55 @@ class Program
                 break;
             case 2:
                 Console.WriteLine("Вы выкинули лечебное зелье.");
+                break;
+        }
+    }
+
+    static void ChangeEquipment(IBaseItem item)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        switch (item)
+        {
+            case Weapon weapon:
+                if (_gameInstance.Player.Weapon == null)
+                {
+                    stringBuilder.AppendLine("У вас нет оружия!");
+                }
+                else
+                {
+                    stringBuilder.Append("Ваши характеристики сейчас: ");
+                    stringBuilder.AppendLine($"{_gameInstance.Player.Weapon?.Name}, {_gameInstance.Player.Weapon?.Damage}.");
+                }
+                stringBuilder.AppendLine(
+                    $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
+                stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
+                break;
+            case Armor armor:
+                if (_gameInstance.Player.Armor == null)
+                {
+                    stringBuilder.AppendLine("У вас нет доспехов!");
+                }
+                else
+                {
+                    stringBuilder.Append("Ваши характеристики сейчас: ");
+                    stringBuilder.AppendLine($"{_gameInstance.Player.Armor?.Name}, {_gameInstance.Player.Armor?.Def}.");
+                }
+                stringBuilder.AppendLine(
+                    $"Характеристики новых доспехов: {armor.Name}, {armor.Def}");
+                stringBuilder.AppendLine("Хотите сменить доспехи или оставить текующие?");
+                break;
+        }
+        stringBuilder.AppendLine("\t1. Сменить\t2. Оставить");
+        Console.WriteLine(stringBuilder.ToString());
+        int playerChoice = UserChoice(1, 2);
+        switch (playerChoice)
+        {
+            case 1:
+                _gameInstance.Player.ChangeEquipment(item);
+                break;
+            case 2:
+                Console.WriteLine($"Вы выкинули {item.Name}!");
                 break;
         }
     }
