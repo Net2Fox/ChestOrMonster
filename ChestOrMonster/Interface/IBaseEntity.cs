@@ -7,4 +7,6 @@ public interface IBaseEntity
 
     public double Attack();
     public double Defend();
+    
+    public double TakeDamage(double dmg);
 }
