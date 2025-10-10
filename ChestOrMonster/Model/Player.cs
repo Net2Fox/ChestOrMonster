@@ -5,6 +5,8 @@ namespace ChestOrMonster.Model;
 
 public class Player : IPlayer
 {
+    private static Random _random = new(DateTime.Now.Millisecond);
+    
     public string Name { get; private set; }
     public double Hp { get; private  set; } = _maxHp;
     public IWeapon Weapon { get; private set; } = new Weapon("Кулаки", 2);
@@ -37,11 +39,20 @@ public class Player : IPlayer
     
     public double Attack()
     {
-        throw new NotImplementedException();
+        return Weapon.Damage;
     }
 
     public double Defend()
     {
-        throw new NotImplementedException();
+        return Armor.Def;
+    }
+
+    public double TakeDamage(double dmg)
+    {
+        double def = Armor.Def * (_random.Next(70, 101) / 100d);
+        double finalAtk = dmg - def;
+        finalAtk = finalAtk > 0 ? finalAtk : 0;
+        Hp -= finalAtk;
+        return finalAtk;
     }
 }
