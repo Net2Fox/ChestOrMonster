@@ -154,7 +154,7 @@ class Program
             case Armor armor:
                 stringBuilder.AppendLine(
                     $"{(_gameInstance.Player.Armor == null ? 
-                        "У вас нет оружия!" : $"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor?.Name}, {_gameInstance.Player.Armor?.Def}.")}");
+                        "У вас нет брони!" : $"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor?.Name}, {_gameInstance.Player.Armor?.Def}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики новых доспехов: {armor.Name}, {armor.Def}");
                 stringBuilder.AppendLine("Хотите сменить доспехи или оставить текующие?");
