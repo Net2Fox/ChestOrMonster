@@ -93,7 +93,7 @@ class Program
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
-                UseHealingPotion();
+                UseHealingPotion(item);
                 break;
         }
     }
@@ -122,14 +122,14 @@ class Program
         }
     }
 
-    static void UseHealingPotion()
+    static void UseHealingPotion(IBaseItem healingPotion)
     {
         Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp} HP. Жотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
         int playerChoice = UserChoice(1, 2);
         switch (playerChoice)
         {
             case 1:
-                _gameInstance.Player.Hp = 100;
+                _gameInstance.Player.UseItem(healingPotion);
                 Console.WriteLine("Вы восстановили HP до максимума!");
                 break;
             case 2:
@@ -138,11 +138,11 @@ class Program
         }
     }
 
-    static void ChangeEquipment(IBaseItem item)
+    static void ChangeEquipment(IBaseItem equipment)
     {
         StringBuilder stringBuilder = new StringBuilder();
         
-        switch (item)
+        switch (equipment)
         {
             case Weapon weapon:
                 if (_gameInstance.Player.Weapon == null)
@@ -179,10 +179,10 @@ class Program
         switch (playerChoice)
         {
             case 1:
-                _gameInstance.Player.ChangeEquipment(item);
+                _gameInstance.Player.UseItem(equipment);
                 break;
             case 2:
-                Console.WriteLine($"Вы выкинули {item.Name}!");
+                Console.WriteLine($"Вы выкинули {equipment.Name}!");
                 break;
         }
     }
