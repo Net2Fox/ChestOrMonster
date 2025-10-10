@@ -76,7 +76,11 @@ class Program
                     StartChest();
                     break;
                 case StepType.Enemy:
-                    StartFight();
+                    bool fightResult = StartFight();
+                    if (!fightResult)
+                    {
+                        return;
+                    }
                     break;
             }
             Thread.Sleep(1000);
@@ -98,10 +102,47 @@ class Program
         }
     }
 
-    static void StartFight()
+    static bool StartFight()
     {
         var enemy = EnemyFactory.CreateRandomEnemy();
         Console.WriteLine($"Вы наткнулись на {enemy.Name}!");
+        while (_gameInstance.Player.Hp > 0 & enemy.Hp > 0)
+        {
+            Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
+            Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
+            Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
+            int playerChoice = UserChoice(1, 2);
+            switch (playerChoice)
+            {
+                case 1:
+                    double playerAtk = _gameInstance.Player.Attack();
+                    playerAtk = enemy.TakeDamage(playerAtk);
+                    Console.WriteLine($"Вы нанесли врагу {playerAtk:F2} урона!");
+                    break;
+                case 2:
+                    // TODO
+                    break;
+            }
+
+            double enemyAtk = enemy.Attack();
+            enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
+            Console.WriteLine($"Враг нанёс вам {enemyAtk:F2}!");
+            Thread.Sleep(1000);
+        }
+
+        if (_gameInstance.Player.Hp <= 0)
+        {
+            Console.WriteLine($"Вас убил {enemy.Name}! Вы проиграли, GGWP :(");
+            return false;
+        }
+
+        if (enemy.Hp <= 0)
+        {
+            Console.WriteLine($"Вы убили {enemy.Name}!");
+            return true;
+        }
+        
+        return false;
     }
 
     static int UserChoice(int minChoice, int maxChoice)
@@ -124,7 +165,7 @@ class Program
 
     static void UseHealingPotion(IBaseItem healingPotion)
     {
-        Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp} HP. Жотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
+        Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp:F0} HP. Хотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
         int playerChoice = UserChoice(1, 2);
         switch (playerChoice)
         {
