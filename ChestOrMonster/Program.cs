@@ -141,33 +141,20 @@ class Program
     static void ChangeEquipment(IBaseItem equipment)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        
         switch (equipment)
         {
             case Weapon weapon:
-                if (_gameInstance.Player.Weapon == null)
-                {
-                    stringBuilder.AppendLine("У вас нет оружия!");
-                }
-                else
-                {
-                    stringBuilder.Append("Ваши характеристики сейчас: ");
-                    stringBuilder.AppendLine($"{_gameInstance.Player.Weapon?.Name}, {_gameInstance.Player.Weapon?.Damage}.");
-                }
+                stringBuilder.AppendLine(
+                    $"{(_gameInstance.Player.Weapon == null ? 
+                        "У вас нет оружия!" : $"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon?.Name}, {_gameInstance.Player.Weapon?.Damage}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
             case Armor armor:
-                if (_gameInstance.Player.Armor == null)
-                {
-                    stringBuilder.AppendLine("У вас нет доспехов!");
-                }
-                else
-                {
-                    stringBuilder.Append("Ваши характеристики сейчас: ");
-                    stringBuilder.AppendLine($"{_gameInstance.Player.Armor?.Name}, {_gameInstance.Player.Armor?.Def}.");
-                }
+                stringBuilder.AppendLine(
+                    $"{(_gameInstance.Player.Armor == null ? 
+                        "У вас нет оружия!" : $"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor?.Name}, {_gameInstance.Player.Armor?.Def}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики новых доспехов: {armor.Name}, {armor.Def}");
                 stringBuilder.AppendLine("Хотите сменить доспехи или оставить текующие?");
