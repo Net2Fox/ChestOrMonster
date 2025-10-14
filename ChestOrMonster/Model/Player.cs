@@ -15,6 +15,7 @@ public class Player : IPlayer
     public StatusEffect Effect { get; private set; } = StatusEffect.None;
     
     private static double _maxHp = 100;
+    private static double _dodgeChance = 0.4;
 
     public Player(string name)
     {
@@ -44,9 +45,13 @@ public class Player : IPlayer
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
-    public double Defend()
+    public bool Dodge()
     {
-        return Armor.Def;
+        if (_random.NextDouble() < _dodgeChance)
+        {
+            return true;
+        }
+        return false;
     }
 
     public DamageInfo TakeDamage(DamageInfo damage)
