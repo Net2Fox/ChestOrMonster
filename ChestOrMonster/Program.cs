@@ -126,7 +126,12 @@ class Program
                             Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
                             break;
                         case 2:
-                            // TODO
+                            if (_gameInstance.Player.Dodge())
+                            {
+                                Console.WriteLine("Вы уклонились от атаки врага!");
+                                continue;
+                            }
+                            Console.WriteLine("Вы не смогли уклониться!");
                             break;
                     }
                     break;
