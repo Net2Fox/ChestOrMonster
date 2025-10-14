@@ -25,11 +25,6 @@ public class Mage : IBaseEnemy
         return new DamageInfo(Atk, AttackType, effect);
     }
 
-    public double Defend()
-    {
-        return Def;
-    }
-
     public DamageInfo TakeDamage(DamageInfo damage)
     {
         switch (damage.Type)

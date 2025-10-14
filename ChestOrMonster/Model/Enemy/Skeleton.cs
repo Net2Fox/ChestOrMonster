@@ -19,11 +19,6 @@ public class Skeleton : IBaseEnemy
         return new DamageInfo(Atk, AttackType);
     }
 
-    public double Defend()
-    {
-        return Def;
-    }
-
     public DamageInfo TakeDamage(DamageInfo damage)
     {
         switch (damage.Type)

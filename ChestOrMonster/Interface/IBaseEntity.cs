@@ -10,7 +10,6 @@ public interface IBaseEntity
     public StatusEffect Effect { get; }
 
     public DamageInfo Attack();
-    public double Defend();
     
     public DamageInfo TakeDamage(DamageInfo damage);
 }

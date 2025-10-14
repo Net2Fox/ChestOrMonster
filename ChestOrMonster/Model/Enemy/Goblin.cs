@@ -25,11 +25,6 @@ public class Goblin : IBaseEnemy
         return new DamageInfo(finalAtk, AttackType);
     }
 
-    public double Defend()
-    {
-        return Def;
-    }
-
     public DamageInfo TakeDamage(DamageInfo damage)
     {
         switch (damage.Type)
