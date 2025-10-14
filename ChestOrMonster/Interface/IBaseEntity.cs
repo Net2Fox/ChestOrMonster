@@ -1,12 +1,16 @@
-﻿namespace ChestOrMonster.Interface;
+﻿using ChestOrMonster.Model;
+
+namespace ChestOrMonster.Interface;
 
 public interface IBaseEntity
 {
     public string Name { get; }
     public double Hp { get; }
+    public DamageType  AttackType { get; }
+    public StatusEffect Effect { get; }
 
-    public double Attack();
+    public DamageInfo Attack();
     public double Defend();
     
-    public double TakeDamage(double dmg);
+    public DamageInfo TakeDamage(DamageInfo damage);
 }
