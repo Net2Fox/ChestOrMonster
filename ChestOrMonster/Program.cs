@@ -190,16 +190,14 @@ class Program
         {
             case Weapon weapon:
                 stringBuilder.AppendLine(
-                    $"{(_gameInstance.Player.Weapon == null ? 
-                        "У вас нет оружия!" : $"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon?.Name}, {_gameInstance.Player.Weapon?.Damage}.")}");
+                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
             case Armor armor:
                 stringBuilder.AppendLine(
-                    $"{(_gameInstance.Player.Armor == null ? 
-                        "У вас нет брони!" : $"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor?.Name}, {_gameInstance.Player.Armor?.Def}.")}");
+                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor.Name}, {_gameInstance.Player.Armor.Def}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики новых доспехов: {armor.Name}, {armor.Def}");
                 stringBuilder.AppendLine("Хотите сменить доспехи или оставить текующие?");
