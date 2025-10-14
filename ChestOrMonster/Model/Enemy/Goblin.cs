@@ -8,8 +8,8 @@ public class Goblin : IBaseEnemy
 
     public string Name { get; private set; } = "Гоблин";
     public double Hp { get; private set; } = 10;
-    public double Atk { get; private set; } = 2;
-    public double Def { get; private set; } = 3;
+    public double Atk { get; private set; } = 3;
+    public double Def { get; private set; } = 1;
     public DamageType AttackType { get; private set; } = DamageType.Physical;
     public StatusEffect Effect { get; private set; } = StatusEffect.None;
     private double CritRate { get; set; } = 0.3;
