@@ -110,23 +110,31 @@ class Program
         {
             Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
             Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
-            Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
-            int playerChoice = UserChoice(1, 2);
-            switch (playerChoice)
+            switch (_gameInstance.Player.Effect)
             {
-                case 1:
-                    double playerAtk = _gameInstance.Player.Attack();
-                    playerAtk = enemy.TakeDamage(playerAtk);
-                    Console.WriteLine($"Вы нанесли врагу {playerAtk:F2} урона!");
+                case StatusEffect.Frozen:
+                    Console.WriteLine("Вы замарожены! Пропуск вашего хода...");
                     break;
-                case 2:
-                    // TODO
+                case StatusEffect.None:
+                    Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
+                    int playerChoice = UserChoice(1, 2);
+                    switch (playerChoice)
+                    {
+                        case 1:
+                            DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            playerAtk = enemy.TakeDamage(playerAtk);
+                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            break;
+                        case 2:
+                            // TODO
+                            break;
+                    }
                     break;
             }
-
-            double enemyAtk = enemy.Attack();
+            
+            DamageInfo enemyAtk = enemy.Attack();
             enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
-            Console.WriteLine($"Враг нанёс вам {enemyAtk:F2}!");
+            Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
             Thread.Sleep(1000);
         }
 
@@ -135,14 +143,10 @@ class Program
             Console.WriteLine($"Вас убил {enemy.Name}! Вы проиграли, GGWP :(");
             return false;
         }
-
-        if (enemy.Hp <= 0)
-        {
-            Console.WriteLine($"Вы убили {enemy.Name}!");
-            return true;
-        }
         
-        return false;
+        Console.WriteLine($"Вы убили {enemy.Name}!");
+        return true;
+
     }
 
     static int UserChoice(int minChoice, int maxChoice)
