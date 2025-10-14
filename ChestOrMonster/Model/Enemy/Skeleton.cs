@@ -11,10 +11,12 @@ public class Skeleton : IBaseEnemy
     public double Hp { get; private set; } = 5;
     public double Atk { get; private set; } = 7;
     public double Def { get; private set; } = 1;
+    public DamageType AttackType { get; private set; } = DamageType.Pure;
+    public StatusEffect Effect { get; private set; } = StatusEffect.None;
     
-    public double Attack()
+    public DamageInfo Attack()
     {
-        return Atk;
+        return new DamageInfo(Atk, AttackType);
     }
 
     public double Defend()
@@ -22,12 +24,18 @@ public class Skeleton : IBaseEnemy
         return Def;
     }
 
-    public double TakeDamage(double dmg)
+    public DamageInfo TakeDamage(DamageInfo damage)
     {
-        double def = Def * (_random.Next(70, 101) / 100d);
-        double finalAtk = dmg - def;
-        finalAtk = finalAtk > 0 ? finalAtk : 0;
-        Hp -= finalAtk;
-        return finalAtk;
+        switch (damage.Type)
+        {
+            case DamageType.Physical:
+                double def = Def * (_random.Next(70, 101) / 100d);
+                damage.ChangeDamageAmount(damage.Amount - def);
+                break;
+        }
+        
+        Effect = damage.Effect;
+        Hp -= damage.Amount;
+        return damage;
     }
 }

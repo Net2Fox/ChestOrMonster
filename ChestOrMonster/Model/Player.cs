@@ -11,6 +11,8 @@ public class Player : IPlayer
     public double Hp { get; private  set; } = _maxHp;
     public IWeapon Weapon { get; private set; } = new Weapon("Кулаки", 2);
     public IArmor Armor { get; private set; } = new Armor("Майка", 1);
+    public DamageType AttackType { get; private set; } = DamageType.Physical;
+    public StatusEffect Effect { get; private set; } = StatusEffect.None;
     
     private static double _maxHp = 100;
 
@@ -37,9 +39,9 @@ public class Player : IPlayer
         }
     }
     
-    public double Attack()
+    public DamageInfo Attack()
     {
-        return Weapon.Damage;
+        return new DamageInfo(Weapon.Damage, AttackType);
     }
 
     public double Defend()
@@ -47,12 +49,18 @@ public class Player : IPlayer
         return Armor.Def;
     }
 
-    public double TakeDamage(double dmg)
+    public DamageInfo TakeDamage(DamageInfo damage)
     {
-        double def = Armor.Def * (_random.Next(70, 101) / 100d);
-        double finalAtk = dmg - def;
-        finalAtk = finalAtk > 0 ? finalAtk : 0;
-        Hp -= finalAtk;
-        return finalAtk;
+        switch (damage.Type)
+        {
+            case DamageType.Physical:
+                double def = Armor.Def * (_random.Next(70, 101) / 100d);
+                damage.ChangeDamageAmount(damage.Amount - def);
+                break;
+        }
+        
+        Effect = damage.Effect;
+        Hp -= damage.Amount;
+        return damage;
     }
 }

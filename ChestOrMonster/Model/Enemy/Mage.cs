@@ -10,10 +10,19 @@ public class Mage : IBaseEnemy
     public double Hp { get; private set; } = 7;
     public double Atk { get; private set; } = 10;
     public double Def { get; private set; } = 1;
+    public DamageType AttackType { get; private set; } = DamageType.Physical;
+    public StatusEffect Effect { get; private set; } = StatusEffect.None;
+
+    private double FrozenRate { get; set; } = 0.2;
     
-    public double Attack()
+    public DamageInfo Attack()
     {
-        return Atk;
+        StatusEffect effect = StatusEffect.None;
+        if (_random.NextDouble() <= FrozenRate)
+        {
+            effect = StatusEffect.Frozen;
+        }
+        return new DamageInfo(Atk, AttackType, effect);
     }
 
     public double Defend()
@@ -21,13 +30,18 @@ public class Mage : IBaseEnemy
         return Def;
     }
 
-    public double TakeDamage(double dmg)
+    public DamageInfo TakeDamage(DamageInfo damage)
     {
-        double def = Def * (_random.Next(70, 101) / 100d);
-        double finalAtk = dmg - def;
-        finalAtk = finalAtk > 0 ? finalAtk : 0;
-        Hp -= finalAtk;
-        return finalAtk;
-        throw new NotImplementedException();
+        switch (damage.Type)
+        {
+            case DamageType.Physical:
+                double def = Def * (_random.Next(70, 101) / 100d);
+                damage.ChangeDamageAmount(damage.Amount - def);
+                break;
+        }
+        
+        Effect = damage.Effect;
+        Hp -= damage.Amount;
+        return damage;
     }
 }
