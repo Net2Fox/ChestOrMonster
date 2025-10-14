@@ -4,7 +4,7 @@ namespace ChestOrMonster.Model.Enemy;
 
 public class Skeleton : IBaseEnemy
 {
-    private static Random _random = new(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
 
     
     public string Name { get; private set; } = "Скелет";

@@ -5,7 +5,7 @@ namespace ChestOrMonster.Factory;
 
 public static class ItemFactory
 {
-    private static Random _random = new(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
 
     private static readonly (string Name, double Damage)[] Weapons =
     [

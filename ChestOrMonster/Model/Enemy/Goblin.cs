@@ -4,7 +4,7 @@ namespace ChestOrMonster.Model.Enemy;
 
 public class Goblin : IBaseEnemy
 {
-    private static Random _random = new(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
 
     public string Name { get; private set; } = "Гоблин";
     public double Hp { get; private set; } = 10;
@@ -18,7 +18,7 @@ public class Goblin : IBaseEnemy
     {
         
         double finalAtk = Atk;
-        if (_random.NextDouble() <= CritRate)
+        if (_random.NextDouble() < CritRate)
         {
             finalAtk *= 1.5;
         }

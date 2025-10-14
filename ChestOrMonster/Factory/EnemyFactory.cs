@@ -5,7 +5,7 @@ namespace ChestOrMonster.Factory;
 
 public static class EnemyFactory
 {
-    private static Random _random = new(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
 
     public static IBaseEnemy CreateRandomEnemy()
     {

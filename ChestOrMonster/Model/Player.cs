@@ -5,7 +5,7 @@ namespace ChestOrMonster.Model;
 
 public class Player : IPlayer
 {
-    private static Random _random = new(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
     
     public string Name { get; private set; }
     public double Hp { get; private  set; } = _maxHp;

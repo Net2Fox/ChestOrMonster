@@ -4,7 +4,7 @@ namespace ChestOrMonster.Model.Enemy;
 
 public class Mage : IBaseEnemy
 {
-    private static Random _random = new(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
 
     public string Name { get; private set; } = "Маг";
     public double Hp { get; private set; } = 7;

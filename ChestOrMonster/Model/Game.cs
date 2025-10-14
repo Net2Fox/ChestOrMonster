@@ -8,7 +8,7 @@ public class Game : IGame
     public StepType CurrentStepType { get; private set; }
     public IPlayer Player { get; private set; }
     
-    private static Random _random = new Random(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
 
     public Game(string playerName)
     {

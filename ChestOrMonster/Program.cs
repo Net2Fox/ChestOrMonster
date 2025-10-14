@@ -9,7 +9,7 @@ namespace ChestOrMonster;
 
 class Program
 {
-    private static Random _random = new Random(DateTime.Now.Millisecond);
+    private static Random _random = Random.Shared;
 
     private static Game _gameInstance;
     static void Main(string[] args)
