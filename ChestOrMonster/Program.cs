@@ -113,7 +113,7 @@ class Program
             switch (_gameInstance.Player.Effect)
             {
                 case StatusEffect.Frozen:
-                    Console.WriteLine("Вы замарожены! Пропуск вашего хода...");
+                    Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
                     break;
                 case StatusEffect.None:
                     Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
