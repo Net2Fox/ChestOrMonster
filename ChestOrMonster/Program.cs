@@ -153,6 +153,7 @@ class Program
         if (_gameInstance.Player.Hp <= 0)
         {
             Console.WriteLine($"Вас убил {enemy.Name}! Вы проиграли, GGWP :(");
+            Thread.Sleep(15000);
             return false;
         }
         
