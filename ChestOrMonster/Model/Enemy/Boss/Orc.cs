@@ -6,6 +6,5 @@ public class Orc : Goblin
     public override double Hp => base.Hp * 2;
     public override double Atk => base.Atk * 1.5;
     public override double Def => base.Def * 1.2;
-    public override DamageType AttackType => DamageType.Usual;
     protected override double CritRate => base.CritRate + 0.1;
 }
