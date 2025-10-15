@@ -10,12 +10,12 @@ public class Goblin : BaseEntity
     public override double Def => 1;
     public override DamageType AttackType => DamageType.Usual;
     public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
-    private double _critRate = 0.3;
+    protected virtual double CritRate { get; } = 0.3;
 
     public override DamageInfo Attack()
     {
         double finalAtk = Atk;
-        if (_random.NextDouble() < _critRate)
+        if (_random.NextDouble() < CritRate)
         {
             finalAtk *= 1.5;
         }
