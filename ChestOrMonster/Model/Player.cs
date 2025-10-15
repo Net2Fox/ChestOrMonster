@@ -3,16 +3,18 @@ using ChestOrMonster.Model.Item;
 
 namespace ChestOrMonster.Model;
 
-public class Player : IPlayer
+public class Player : BaseEntity
 {
-    private static Random _random = Random.Shared;
-    
-    public string Name { get; private set; }
-    public double Hp { get; private  set; } = _maxHp;
     public IWeapon Weapon { get; private set; } = new Weapon("Кулаки", 2);
     public IArmor Armor { get; private set; } = new Armor("Майка", 1);
-    public DamageType AttackType { get; private set; } = DamageType.Physical;
-    public StatusEffect Effect { get; private set; } = StatusEffect.None;
+
+
+    public override string Name { get; protected set; }
+    public override double Hp { get; protected set; } = _maxHp;
+    public override double Atk => Weapon.Damage;
+    public override double Def => Armor.Def;
+    public override DamageType AttackType { get;  } = DamageType.Usual;
+    public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
     
     private static double _maxHp = 100;
     private static double _dodgeChance = 0.4;
@@ -20,6 +22,11 @@ public class Player : IPlayer
     public Player(string name)
     {
         Name = name;
+    }
+    
+    public override DamageInfo Attack()
+    {
+        return new DamageInfo(Weapon.Damage, AttackType);
     }
 
     public void UseItem(IBaseItem item)
@@ -40,11 +47,6 @@ public class Player : IPlayer
         }
     }
     
-    public DamageInfo Attack()
-    {
-        return new DamageInfo(Weapon.Damage, AttackType);
-    }
-
     public bool Dodge()
     {
         if (_random.NextDouble() < _dodgeChance)
@@ -52,20 +54,5 @@ public class Player : IPlayer
             return true;
         }
         return false;
-    }
-
-    public DamageInfo TakeDamage(DamageInfo damage)
-    {
-        switch (damage.Type)
-        {
-            case DamageType.Physical:
-                double def = Armor.Def * (_random.Next(70, 101) / 100d);
-                damage.ChangeDamageAmount(damage.Amount - def);
-                break;
-        }
-        
-        Effect = damage.Effect;
-        Hp -= damage.Amount;
-        return damage;
     }
 }

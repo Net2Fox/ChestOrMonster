@@ -2,41 +2,24 @@
 
 namespace ChestOrMonster.Model.Enemy;
 
-public class Mage : IBaseEnemy
+public class Mage : BaseEntity
 {
-    private static Random _random = Random.Shared;
+    public override string Name { get; protected set; } = "Маг";
+    public override double Hp { get; protected set; } = 7;
+    public override double Atk => 10;
+    public override double Def => 1;
+    public override DamageType AttackType => DamageType.Usual;
+    public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
 
-    public string Name { get; private set; } = "Маг";
-    public double Hp { get; private set; } = 7;
-    public double Atk { get; private set; } = 10;
-    public double Def { get; private set; } = 1;
-    public DamageType AttackType { get; private set; } = DamageType.Physical;
-    public StatusEffect Effect { get; private set; } = StatusEffect.None;
-
-    private double FrozenRate { get; set; } = 0.2;
+    private double _frozenRate = 0.2;
     
-    public DamageInfo Attack()
+    public override DamageInfo Attack()
     {
         StatusEffect effect = StatusEffect.None;
-        if (_random.NextDouble() <= FrozenRate)
+        if (_random.NextDouble() <= _frozenRate)
         {
             effect = StatusEffect.Frozen;
         }
         return new DamageInfo(Atk, AttackType, effect);
-    }
-
-    public DamageInfo TakeDamage(DamageInfo damage)
-    {
-        switch (damage.Type)
-        {
-            case DamageType.Physical:
-                double def = Def * (_random.Next(70, 101) / 100d);
-                damage.ChangeDamageAmount(damage.Amount - def);
-                break;
-        }
-        
-        Effect = damage.Effect;
-        Hp -= damage.Amount;
-        return damage;
     }
 }

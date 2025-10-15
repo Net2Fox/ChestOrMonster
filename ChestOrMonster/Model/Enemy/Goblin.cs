@@ -2,41 +2,23 @@
 
 namespace ChestOrMonster.Model.Enemy;
 
-public class Goblin : IBaseEnemy
+public class Goblin : BaseEntity
 {
-    private static Random _random = Random.Shared;
+    public override string Name { get; protected set; } = "Гоблин";
+    public override double Hp { get; protected set; } = 10;
+    public override double Atk => 3;
+    public override double Def => 1;
+    public override DamageType AttackType => DamageType.Usual;
+    public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
+    private double _critRate = 0.3;
 
-    public string Name { get; private set; } = "Гоблин";
-    public double Hp { get; private set; } = 10;
-    public double Atk { get; private set; } = 3;
-    public double Def { get; private set; } = 1;
-    public DamageType AttackType { get; private set; } = DamageType.Physical;
-    public StatusEffect Effect { get; private set; } = StatusEffect.None;
-    private double CritRate { get; set; } = 0.3;
-
-    public DamageInfo Attack()
+    public override DamageInfo Attack()
     {
-        
         double finalAtk = Atk;
-        if (_random.NextDouble() < CritRate)
+        if (_random.NextDouble() < _critRate)
         {
             finalAtk *= 1.5;
         }
         return new DamageInfo(finalAtk, AttackType);
-    }
-
-    public DamageInfo TakeDamage(DamageInfo damage)
-    {
-        switch (damage.Type)
-        {
-            case DamageType.Physical:
-                double def = Def * (_random.Next(70, 101) / 100d);
-                damage.ChangeDamageAmount(damage.Amount - def);
-                break;
-        }
-
-        Effect = damage.Effect;
-        Hp -= damage.Amount;
-        return damage;
     }
 }

@@ -6,7 +6,7 @@ public interface IGame
 {
     public int CurrentStep { get; }
     public StepType CurrentStepType { get; }
-    public IPlayer Player { get; }
+    public Player Player { get; }
     
     public void MoveStep();
 }

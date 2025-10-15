@@ -6,7 +6,7 @@ public class Game : IGame
 {
     public int CurrentStep { get; private set; }
     public StepType CurrentStepType { get; private set; }
-    public IPlayer Player { get; private set; }
+    public Player Player { get; private set; }
     
     private static Random _random = Random.Shared;
 

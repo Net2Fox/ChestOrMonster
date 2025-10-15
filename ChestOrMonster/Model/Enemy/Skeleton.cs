@@ -2,35 +2,17 @@
 
 namespace ChestOrMonster.Model.Enemy;
 
-public class Skeleton : IBaseEnemy
+public class Skeleton : BaseEntity
 {
-    private static Random _random = Random.Shared;
-
+    public override string Name { get; protected set; } = "Скелет";
+    public override double Hp { get; protected set; } = 5;
+    public override double Atk => 7;
+    public override double Def => 1;
+    public override DamageType AttackType => DamageType.Pure;
+    public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
     
-    public string Name { get; private set; } = "Скелет";
-    public double Hp { get; private set; } = 5;
-    public double Atk { get; private set; } = 7;
-    public double Def { get; private set; } = 1;
-    public DamageType AttackType { get; private set; } = DamageType.Pure;
-    public StatusEffect Effect { get; private set; } = StatusEffect.None;
-    
-    public DamageInfo Attack()
+    public override DamageInfo Attack()
     {
         return new DamageInfo(Atk, AttackType);
-    }
-
-    public DamageInfo TakeDamage(DamageInfo damage)
-    {
-        switch (damage.Type)
-        {
-            case DamageType.Physical:
-                double def = Def * (_random.Next(70, 101) / 100d);
-                damage.ChangeDamageAmount(damage.Amount - def);
-                break;
-        }
-        
-        Effect = damage.Effect;
-        Hp -= damage.Amount;
-        return damage;
     }
 }

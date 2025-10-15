@@ -2,6 +2,6 @@
 
 public enum DamageType
 {
-    Physical,
+    Usual,
     Pure
 }

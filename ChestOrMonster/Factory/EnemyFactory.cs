@@ -1,4 +1,5 @@
 ﻿using ChestOrMonster.Interface;
+using ChestOrMonster.Model;
 using ChestOrMonster.Model.Enemy;
 
 namespace ChestOrMonster.Factory;
@@ -7,7 +8,7 @@ public static class EnemyFactory
 {
     private static Random _random = Random.Shared;
 
-    public static IBaseEnemy CreateRandomEnemy()
+    public static BaseEntity CreateRandomEnemy()
     {
         int roll = _random.Next(0, 3);
         return roll switch
