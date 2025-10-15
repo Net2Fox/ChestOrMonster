@@ -11,12 +11,12 @@ public class Mage : BaseEntity
     public override DamageType AttackType => DamageType.Usual;
     public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
 
-    private double _frozenRate = 0.2;
+    protected virtual double FrozenRate { get; } = 0.2;
     
     public override DamageInfo Attack()
     {
         StatusEffect effect = StatusEffect.None;
-        if (_random.NextDouble() <= _frozenRate)
+        if (_random.NextDouble() <= FrozenRate)
         {
             effect = StatusEffect.Frozen;
         }
