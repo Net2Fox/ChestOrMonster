@@ -3,6 +3,7 @@ using ChestOrMonster.Factory;
 using ChestOrMonster.Interface;
 using ChestOrMonster.Model;
 using ChestOrMonster.Model.Enemy;
+using ChestOrMonster.Model.Enemy.Boss;
 using ChestOrMonster.Model.Item;
 
 namespace ChestOrMonster;
@@ -70,18 +71,25 @@ class Program
         {
             _gameInstance.MoveStep();
             Console.WriteLine($"Сейчас {_gameInstance.CurrentStep} ход.");
-            switch (_gameInstance.CurrentStepType)
+            if (_gameInstance.CurrentStep % 10 == 0)
             {
-                case StepType.Chest:
-                    StartChest();
-                    break;
-                case StepType.Enemy:
-                    bool fightResult = StartFight();
-                    if (!fightResult)
-                    {
-                        return;
-                    }
-                    break;
+                StartFight(true);
+            }
+            else
+            {
+                switch (_gameInstance.CurrentStepType)
+                {
+                    case StepType.Chest:
+                        StartChest();
+                        break;
+                    case StepType.Enemy:
+                        bool fightResult = StartFight();
+                        if (!fightResult)
+                        {
+                            return;
+                        }
+                        break;
+                }
             }
             Thread.Sleep(1000);
         }
@@ -102,9 +110,17 @@ class Program
         }
     }
 
-    static bool StartFight()
+    static bool StartFight(bool isBoss = false)
     {
-        var enemy = EnemyFactory.CreateRandomEnemy();
+        BaseEntity enemy;
+        if (isBoss)
+        {
+            enemy = EnemyFactory.CreateRandomBoss();
+        }
+        else
+        {
+            enemy = EnemyFactory.CreateRandomEnemy();
+        }
         Console.WriteLine($"Вы наткнулись на {enemy.Name}!");
         while (_gameInstance.Player.Hp > 0 & enemy.Hp > 0)
         {
