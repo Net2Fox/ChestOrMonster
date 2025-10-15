@@ -57,7 +57,7 @@ class Program
         Console.Clear();
         Console.WriteLine("Игра \"Сундуки и Монстры\" представляет собой пошаговую текстовую игру рогалик.\nПрактические все элементы игры генерируются случайно.");
         Console.WriteLine("Вы искатель приключений и бродите по миру в поиске приключений на свою голову.\nНа каждом ходу вам может попасться *сундук* или *монстр*.");
-        Console.WriteLine("Из сундука вам может выпасть предмт - лечебное зелье, оружие или доспех.\n\tОт оружия зависит сила атаки.\n\tОт доспехов зависит защита.");
+        Console.WriteLine("Из сундука вам может выпасть предмет - лечебное зелье, оружие или доспех.\n\tОт оружия зависит сила атаки.\n\tОт доспехов зависит защита.");
         Console.WriteLine("Если вы наткнулись на врага, то начинается бой. Вы можете атаковать и защищаться. При выбора защиты, есть шанс до 40% полностью уклониться от атаки.");
         Console.WriteLine("\nПосле прочтения, нажмите любую кнопку.");
         Console.ReadKey();
@@ -108,12 +108,14 @@ class Program
         Console.WriteLine($"Вы наткнулись на {enemy.Name}!");
         while (_gameInstance.Player.Hp > 0 & enemy.Hp > 0)
         {
+            bool dodged = false;
             Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
             Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
             switch (_gameInstance.Player.Effect)
             {
                 case StatusEffect.Frozen:
                     Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
+                    _gameInstance.Player.UpdateStatusEffect();
                     break;
                 case StatusEffect.None:
                     Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
@@ -129,17 +131,22 @@ class Program
                             if (_gameInstance.Player.Dodge())
                             {
                                 Console.WriteLine("Вы уклонились от атаки врага!");
-                                continue;
+                                dodged = true;
                             }
-                            Console.WriteLine("Вы не смогли уклониться!");
+                            else
+                            {
+                                Console.WriteLine("Вы не смогли уклониться!");
+                            }
                             break;
                     }
                     break;
             }
-            
-            DamageInfo enemyAtk = enemy.Attack();
-            enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
-            Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
+            if (enemy.Hp > 0 && !dodged)
+            {
+                DamageInfo enemyAtk = enemy.Attack();
+                enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
+                Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
+            }
             Thread.Sleep(1000);
         }
 
