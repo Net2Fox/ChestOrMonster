@@ -2,8 +2,20 @@
 
 public class GiantSkeleton : Skeleton
 {
-    public override string Name => "Гигантский скелет";
-    public override double Hp => base.Atk * 2.5;
-    public override double Atk => base.Atk * 1.3;
-    public override double Def => base.Def * 1.4;
+    public override string Name { get; }
+    public override double Hp { get; protected set; }
+    public override double Atk { get; }
+    public override double Def { get; }
+    public override DamageType AttackType { get; }
+    public override StatusEffect Effect { get; protected set; }
+    
+    public GiantSkeleton()
+    {
+        Name = "Гигантский скелет";
+        Hp = 12;
+        Atk = 9;
+        Def = 3;
+        AttackType = DamageType.Pure;
+        Effect = StatusEffect.None;
+    }
 }

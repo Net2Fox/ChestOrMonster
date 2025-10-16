@@ -4,14 +4,24 @@ namespace ChestOrMonster.Model.Enemy;
 
 public class Mage : BaseEntity
 {
-    public override string Name { get; protected set; } = "Маг";
-    public override double Hp { get; protected set; } = 7;
-    public override double Atk => 10;
-    public override double Def => 1;
-    public override DamageType AttackType => DamageType.Usual;
-    public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
-
+    public override string Name { get; }
+    public override double Hp { get; protected set; }
+    public override double Atk { get; }
+    public override double Def { get; }
+    public override DamageType AttackType { get; }
+    public override StatusEffect Effect { get; protected set; }
     protected virtual double FrozenRate { get; } = 0.2;
+    
+    public Mage()
+    {
+        Name = "Маг";
+        Hp = 7;
+        Atk = 10;
+        Def = 1;
+        AttackType = DamageType.Usual;
+        Effect = StatusEffect.None;
+        FrozenRate = 0.2;
+    }
     
     public override DamageInfo Attack()
     {

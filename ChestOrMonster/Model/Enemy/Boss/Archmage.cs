@@ -2,9 +2,22 @@
 
 public class Archmage : Mage
 {
-    public override string Name => "Маг";
-    public override double Hp => base.Atk * 1.8;
-    public override double Atk => base.Atk * 1.6;
-    public override double Def => base.Def * 1.1;
-    protected override double FrozenRate => base.FrozenRate + 0.1;
+    public override string Name { get; }
+    public override double Hp { get; protected set; }
+    public override double Atk { get; }
+    public override double Def { get; }
+    public override DamageType AttackType { get; }
+    public override StatusEffect Effect { get; protected set; }
+    protected override double FrozenRate { get; }
+    
+    public Archmage()
+    {
+        Name = "Архимаг";
+        Hp = 14;
+        Atk = 16;
+        Def = 2;
+        AttackType = DamageType.Usual;
+        Effect = StatusEffect.None;
+        FrozenRate = 0.3;
+    }
 }

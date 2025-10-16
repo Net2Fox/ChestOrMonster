@@ -6,7 +6,7 @@ public abstract class BaseEntity
 {
     protected static Random _random = Random.Shared;
     
-    public abstract string Name { get; protected set; }
+    public abstract string Name { get; }
     public abstract double Hp { get; protected set; }
     public abstract double Atk { get; }
     public abstract double Def { get; }

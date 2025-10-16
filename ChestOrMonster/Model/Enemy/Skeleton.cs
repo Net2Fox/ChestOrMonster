@@ -4,13 +4,23 @@ namespace ChestOrMonster.Model.Enemy;
 
 public class Skeleton : BaseEntity
 {
-    public override string Name { get; protected set; } = "Скелет";
-    public override double Hp { get; protected set; } = 5;
-    public override double Atk => 7;
-    public override double Def => 1;
-    public override DamageType AttackType => DamageType.Pure;
-    public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
+    public override string Name { get; }
+    public override double Hp { get; protected set; }
+    public override double Atk { get; }
+    public override double Def { get; }
+    public override DamageType AttackType { get; }
+    public override StatusEffect Effect { get; protected set; }
     
+    public Skeleton()
+    {
+        Name = "Скелет";
+        Hp = 5;
+        Atk = 7;
+        Def = 1;
+        AttackType = DamageType.Pure;
+        Effect = StatusEffect.None;
+    }
+
     public override DamageInfo Attack()
     {
         return new DamageInfo(Atk, AttackType);

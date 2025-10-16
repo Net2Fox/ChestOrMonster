@@ -5,16 +5,15 @@ namespace ChestOrMonster.Model;
 
 public class Player : BaseEntity
 {
-    public IWeapon Weapon { get; private set; } = new Weapon("Кулаки", 2);
-    public IArmor Armor { get; private set; } = new Armor("Майка", 1);
-
-
-    public override string Name { get; protected set; }
+    public IWeapon Weapon { get; private set; }
+    public IArmor Armor { get; private set; }
+    
+    public override string Name { get; }
     public override double Hp { get; protected set; } = _maxHp;
     public override double Atk => Weapon.Damage;
     public override double Def => Armor.Def;
-    public override DamageType AttackType { get;  } = DamageType.Usual;
-    public override StatusEffect Effect { get; protected set; } = StatusEffect.None;
+    public override DamageType AttackType { get; }
+    public override StatusEffect Effect { get; protected set; }
     
     private static double _maxHp = 100;
     private static double _dodgeChance = 0.4;
@@ -22,6 +21,11 @@ public class Player : BaseEntity
     public Player(string name)
     {
         Name = name;
+        Weapon = new Weapon("Кулаки", 2);
+        Armor = new Armor("Майка", 1);
+        Hp = _maxHp;
+        AttackType = DamageType.Usual;
+        Effect = StatusEffect.None;
     }
     
     public override DamageInfo Attack()
