@@ -4,6 +4,9 @@ using ChestOrMonster.Interface;
 using ChestOrMonster.Model;
 using ChestOrMonster.Model.Enemy;
 using ChestOrMonster.Model.Enemy.Boss;
+using ChestOrMonster.Model.Event;
+using ChestOrMonster.Model.Event.Enemy;
+using ChestOrMonster.Model.Event.Player;
 using ChestOrMonster.Model.Item;
 
 namespace ChestOrMonster;
@@ -67,115 +70,174 @@ class Program
     static void StartGame(string playerName)
     {
         _gameInstance = new Game(playerName);
-        while (true)
+        
+        while (!_gameInstance.IsGameOver)
         {
-            _gameInstance.MoveStep();
+            IGameEvent stepEvent = _gameInstance.MoveStep();
             Console.WriteLine($"Сейчас {_gameInstance.CurrentStep} ход.");
-            if (_gameInstance.CurrentStep % 10 == 0)
-            {
-                StartFight(true);
-            }
-            else
-            {
-                switch (_gameInstance.CurrentStepType)
-                {
-                    case StepType.Chest:
-                        StartChest();
-                        break;
-                    case StepType.Enemy:
-                        bool fightResult = StartFight();
-                        if (!fightResult)
-                        {
-                            return;
-                        }
-                        break;
-                }
-            }
+            
+            HandleGameEvent(stepEvent);
+            
             Thread.Sleep(1000);
         }
     }
 
-    static void StartChest()
+    static void HandleGameEvent(IGameEvent gameEvent)
     {
-        var item = ItemFactory.CreateRandomItem();
+        switch (gameEvent)
+        {
+            case ChestFoundEvent chestEvent:
+                HandleChest(chestEvent.Item);
+                break;
+                
+            case EnemyEncounteredEvent enemyEvent:
+                HandleCombat(enemyEvent.Enemy, enemyEvent.IsBoss);
+                break;
+        }
+    }
+
+    static void HandleChest(IBaseItem item)
+    {
         Console.WriteLine($"Вам выпал {item.Name}!");
+        
         switch (item)
         {
             case Weapon or Armor:
-                ChangeEquipment(item);
+                OfferEquipmentChange(item);
                 break;
             case HealingPotion:
-                UseHealingPotion(item);
+                OfferHealingPotion(item);
                 break;
         }
     }
 
-    static bool StartFight(bool isBoss = false)
+    static void HandleCombat(BaseEntity enemy, bool isBoss)
     {
-        BaseEntity enemy;
-        if (isBoss)
+        Console.WriteLine($"Вы наткнулись на {enemy.Name}!" + (isBoss ? " Это БОСС!" : ""));
+        
+        while (_gameInstance.CurrentEnemy != null && !_gameInstance.IsGameOver)
         {
-            enemy = EnemyFactory.CreateRandomBoss();
+            DisplayCombatStats(enemy);
+            
+            PlayerAction action = GetPlayerCombatAction();
+            
+            List<IGameEvent> combatEvents = _gameInstance.ProcessCombatAction(action);
+            
+            foreach (var combatEvent in combatEvents)
+            {
+                DisplayCombatEvent(combatEvent);
+            }
+            
+            Thread.Sleep(1000);
+        }
+    }
+
+    static void DisplayCombatStats(BaseEntity enemy)
+    {
+        Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
+        Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
+    }
+
+    static PlayerAction GetPlayerCombatAction()
+    {
+        if (_gameInstance.Player.Effect == StatusEffect.Frozen)
+        {
+            return PlayerAction.Nothing;
+        }
+        
+        Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
+        int choice = UserChoice(1, 2);
+        return choice == 1 ? PlayerAction.Attack : PlayerAction.Defend;
+    }
+
+    static void DisplayCombatEvent(IGameEvent combatEvent)
+    {
+        switch (combatEvent)
+        {
+            case PlayerFrozenEvent:
+                Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
+                break;
+                
+            case PlayerAttackEvent attackEvent:
+                Console.WriteLine($"Вы нанесли врагу {attackEvent.Damage.Amount:F2} урона!");
+                break;
+                
+            case PlayerDodgedEvent:
+                Console.WriteLine("Вы уклонились от атаки врага!");
+                break;
+                
+            case PlayerDodgeFailedEvent:
+                Console.WriteLine("Вы не смогли уклониться!");
+                break;
+                
+            case EnemyAttackEvent enemyAttack:
+                Console.WriteLine($"Враг нанёс вам {enemyAttack.Damage.Amount:F2}!");
+                break;
+                
+            case EnemyDefeatedEvent defeatedEnemy:
+                Console.WriteLine($"Вы убили {defeatedEnemy.EnemyName}!");
+                break;
+                
+            case PlayerDefeatedEvent playerDefeat:
+                Console.WriteLine($"Вас убил {playerDefeat.EnemyName}! Вы проиграли, GGWP :(");
+                Thread.Sleep(15000);
+                break;
+        }
+    }
+
+    static void OfferHealingPotion(IBaseItem healingPotion)
+    {
+        Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp:F0} HP. Хотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
+        int choice = UserChoice(1, 2);
+        ItemAction action = choice == 1 ? ItemAction.Use : ItemAction.Discard;
+        
+        _gameInstance.ProcessItemAction(healingPotion, action);
+        
+        if (action == ItemAction.Use)
+        {
+            Console.WriteLine("Вы восстановили HP до максимума!");
         }
         else
         {
-            enemy = EnemyFactory.CreateRandomEnemy();
+            Console.WriteLine("Вы выкинули лечебное зелье.");
         }
-        Console.WriteLine($"Вы наткнулись на {enemy.Name}!");
-        while (_gameInstance.Player.Hp > 0 & enemy.Hp > 0)
-        {
-            bool dodged = false;
-            Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
-            Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
-            switch (_gameInstance.Player.Effect)
-            {
-                case StatusEffect.Frozen:
-                    Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
-                    _gameInstance.Player.UpdateStatusEffect();
-                    break;
-                case StatusEffect.None:
-                    Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
-                    int playerChoice = UserChoice(1, 2);
-                    switch (playerChoice)
-                    {
-                        case 1:
-                            DamageInfo playerAtk = _gameInstance.Player.Attack();
-                            playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
-                            break;
-                        case 2:
-                            if (_gameInstance.Player.Dodge())
-                            {
-                                Console.WriteLine("Вы уклонились от атаки врага!");
-                                dodged = true;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Вы не смогли уклониться!");
-                            }
-                            break;
-                    }
-                    break;
-            }
-            if (enemy.Hp > 0 && !dodged)
-            {
-                DamageInfo enemyAtk = enemy.Attack();
-                enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
-                Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
-            }
-            Thread.Sleep(1000);
-        }
+    }
 
-        if (_gameInstance.Player.Hp <= 0)
+    static void OfferEquipmentChange(IBaseItem equipment)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        
+        switch (equipment)
         {
-            Console.WriteLine($"Вас убил {enemy.Name}! Вы проиграли, GGWP :(");
-            Thread.Sleep(15000);
-            return false;
+            case Weapon weapon:
+                stringBuilder.AppendLine(
+                    $"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.");
+                stringBuilder.AppendLine(
+                    $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
+                stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
+                break;
+                
+            case Armor armor:
+                stringBuilder.AppendLine(
+                    $"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor.Name}, {_gameInstance.Player.Armor.Def}.");
+                stringBuilder.AppendLine(
+                    $"Характеристики новых доспехов: {armor.Name}, {armor.Def}");
+                stringBuilder.AppendLine("Хотите сменить доспехи или оставить текующие?");
+                break;
         }
         
-        Console.WriteLine($"Вы убили {enemy.Name}!");
-        return true;
-
+        stringBuilder.AppendLine("\t1. Сменить\t2. Оставить");
+        Console.WriteLine(stringBuilder.ToString());
+        
+        int choice = UserChoice(1, 2);
+        ItemAction action = choice == 1 ? ItemAction.Use : ItemAction.Discard;
+        
+        _gameInstance.ProcessItemAction(equipment, action);
+        
+        if (action == ItemAction.Discard)
+        {
+            Console.WriteLine($"Вы выкинули {equipment.Name}!");
+        }
     }
 
     static int UserChoice(int minChoice, int maxChoice)
@@ -193,56 +255,6 @@ class Program
                 continue;
             }
             return choiceNumber;
-        }
-    }
-
-    static void UseHealingPotion(IBaseItem healingPotion)
-    {
-        Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp:F0} HP. Хотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
-        int playerChoice = UserChoice(1, 2);
-        switch (playerChoice)
-        {
-            case 1:
-                _gameInstance.Player.UseItem(healingPotion);
-                Console.WriteLine("Вы восстановили HP до максимума!");
-                break;
-            case 2:
-                Console.WriteLine("Вы выкинули лечебное зелье.");
-                break;
-        }
-    }
-
-    static void ChangeEquipment(IBaseItem equipment)
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        switch (equipment)
-        {
-            case Weapon weapon:
-                stringBuilder.AppendLine(
-                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
-                stringBuilder.AppendLine(
-                    $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
-                stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
-                break;
-            case Armor armor:
-                stringBuilder.AppendLine(
-                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor.Name}, {_gameInstance.Player.Armor.Def}.")}");
-                stringBuilder.AppendLine(
-                    $"Характеристики новых доспехов: {armor.Name}, {armor.Def}");
-                stringBuilder.AppendLine("Хотите сменить доспехи или оставить текующие?");
-                break;
-        }
-        stringBuilder.AppendLine("\t1. Сменить\t2. Оставить");
-        Console.WriteLine(stringBuilder.ToString());
-        int playerChoice = UserChoice(1, 2);
-        switch (playerChoice)
-        {
-            case 1:
-                _gameInstance.Player.UseItem(equipment);
-                break;
-            case 2:
-                Console.WriteLine($"Вы выкинули {equipment.Name}!");
-                break;
         }
     }
 }
