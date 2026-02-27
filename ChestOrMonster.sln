@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChestOrMonster", "ChestOrMonster\ChestOrMonster.csproj", "{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChestOrMonster.WPF", "ChestOrMonster.WPF\ChestOrMonster.WPF.csproj", "{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
