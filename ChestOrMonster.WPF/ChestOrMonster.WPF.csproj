@@ -12,4 +12,21 @@
       <ProjectReference Include="..\ChestOrMonster\ChestOrMonster.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Image\ArmorIcon.png" />
+      <None Remove="Image\HealingPointIcon.png" />
+      <None Remove="Image\WeaponIcon.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Images\ArmorIcon.png" />
+      <Resource Include="Images\WeaponIcon.png" />
+      <None Remove="Images\HealingPointIcon.png" />
+      <Resource Include="Images\HealingPointIcon.png" />
+      <None Remove="Images\WeaponIcon.png" />
+      <Resource Include="Images\WeaponIcon.png" />
+      <None Remove="Images\ArmorIcon.png" />
+      <Resource Include="Images\ArmorIcon.png" />
+    </ItemGroup>
+
 </Project>
