@@ -6,7 +6,46 @@
       xmlns:local="clr-namespace:ChestOrMonster.WPF.Pages"
       mc:Ignorable="d"
       Title="MainPage" Height="450" Width="800">
-    <Grid>
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Этаж 1" FontSize="20" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            <ProgressBar Grid.Column="1" Minimum="0" Maximum="100" Value="100"/>
+            <TextBlock Grid.Column="1" Text="HP" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Foreground="White" FontStyle="Italic"/>
+        </Grid>
+        
+        
+        
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Grid Width="80" Height="80" Margin="10">
+                    <Image Source="../Images/WeaponIcon.png" Width="80"/>
+                </Grid>
+                <Grid Width="80" Height="80" Margin="10">
+                    <Image Source="../Images/ArmorIcon.png" Width="80"/>
+                </Grid>
+                <Grid Width="80" Height="80" Margin="10">
+                    <Image Source="../Images/HealingPointIcon.png" Width="80"/>
+                    <TextBlock Text="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="16"/>
+                </Grid>
+            </StackPanel>
+            <ScrollViewer Grid.Column="1">
+                <TextBlock FontSize="16" Text="События" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </ScrollViewer>
+        </Grid>
         
     </Grid>
 </Page>
