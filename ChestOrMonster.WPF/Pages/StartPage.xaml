@@ -12,6 +12,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Chest || Monster" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32"/>
-        <Button x:Name="StartGameButton" Grid.Row="1" Content="Начать игру" Padding="10" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+        <Button x:Name="StartGameButton" Grid.Row="1" Content="Начать игру" Padding="10" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Click="StartGameButton_OnClick"/>
     </Grid>
 </Page>
