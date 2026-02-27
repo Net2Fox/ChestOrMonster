@@ -19,19 +19,25 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Images\ArmorIcon.png" />
-      <Resource Include="Images\WeaponIcon.png" />
       <None Remove="Images\HealingPointIcon.png" />
-      <Resource Include="Images\HealingPointIcon.png" />
       <None Remove="Images\WeaponIcon.png" />
-      <Resource Include="Images\WeaponIcon.png" />
       <None Remove="Images\ArmorIcon.png" />
-      <Resource Include="Images\ArmorIcon.png" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Images\ArmorIcon.png" />
+      <Resource Include="Images\WeaponIcon.png" />
+      <None Remove="Images\ChestIcon.png" />
+      <Resource Include="Images\ChestIcon.png" />
+      <None Remove="Images\EnemyIcon.png" />
+      <Resource Include="Images\EnemyIcon.png" />
+      <None Remove="Images\HealPointIcon.png" />
+      <Resource Include="Images\HealPointIcon.png" />
     </ItemGroup>
 
 </Project>
