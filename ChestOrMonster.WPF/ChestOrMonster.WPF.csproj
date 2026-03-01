@@ -9,10 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ChestOrMonster\ChestOrMonster.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Remove="Image\ArmorIcon.png" />
       <None Remove="Image\HealingPointIcon.png" />
       <None Remove="Image\WeaponIcon.png" />
@@ -38,6 +34,10 @@
       <Resource Include="Images\EnemyIcon.png" />
       <None Remove="Images\HealPointIcon.png" />
       <Resource Include="Images\HealPointIcon.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ChestOrMonster\ChestOrMonster.csproj" />
     </ItemGroup>
 
 </Project>
