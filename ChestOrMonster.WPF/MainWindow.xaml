@@ -5,8 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChestOrMonster.WPF"
         mc:Ignorable="d"
-        Title="Chesr || Monster" Height="450" Width="800">
-    <Grid>
+        Title="Chesr || Monster" MinHeight="450" MinWidth="800" WindowState="Maximized" WindowStartupLocation="CenterScreen">
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Source="Pages/StartPage.xaml"/>
-    </Grid>
 </Window>
