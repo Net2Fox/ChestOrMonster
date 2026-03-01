@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
-using ChestOrMonster.WPF.Model;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ChestOrMonster.WPF;
@@ -25,8 +24,6 @@ public partial class App : Application
    public IServiceProvider ConfigureServices()
    {
       var services = new ServiceCollection();
-
-      services.AddSingleton<GameScript>();
       
       return services.BuildServiceProvider();
    }
