@@ -21,11 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Resource Include="Images\ArmorIcon.png" />
       <Resource Include="Images\WeaponIcon.png" />
       <None Remove="Images\ChestIcon.png" />
