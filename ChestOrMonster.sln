@@ -1,8 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChestOrMonster", "ChestOrMonster\ChestOrMonster.csproj", "{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChestOrMonster.Console", "ChestOrMonster.Console\ChestOrMonster.Console.csproj", "{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChestOrMonster.WPF", "ChestOrMonster.WPF\ChestOrMonster.WPF.csproj", "{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChestOrMonster", "ChestOrMonster\ChestOrMonster.csproj", "{070CAFCC-193D-40CF-B44F-680CBA7EB977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,9 @@ Global
 		{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D9C618F-8AFE-4EA9-9CEE-9633837EDEEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{070CAFCC-193D-40CF-B44F-680CBA7EB977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{070CAFCC-193D-40CF-B44F-680CBA7EB977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{070CAFCC-193D-40CF-B44F-680CBA7EB977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{070CAFCC-193D-40CF-B44F-680CBA7EB977}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

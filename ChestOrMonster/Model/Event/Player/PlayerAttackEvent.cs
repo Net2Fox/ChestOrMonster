@@ -4,11 +4,13 @@ namespace ChestOrMonster.Model.Event.Player;
 
 public class PlayerAttackEvent : IGameEvent
 {
+    public BaseEntity Enemy { get; }
     public DamageInfo Damage { get; }
     public double RemainingEnemyHp { get; }
     
-    public PlayerAttackEvent(DamageInfo damage, double remainingEnemyHp)
+    public PlayerAttackEvent(BaseEntity enemy, DamageInfo damage, double remainingEnemyHp)
     {
+        Enemy = enemy;
         Damage = damage;
         RemainingEnemyHp = remainingEnemyHp;  
     }

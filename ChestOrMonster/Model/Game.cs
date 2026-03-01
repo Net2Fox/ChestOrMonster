@@ -12,7 +12,8 @@ public class Game : IGame
     public int CurrentStep { get; private set; }
     public StepType CurrentStepType { get; private set; }
     public Player Player { get; private set; }
-    public BaseEntity? CurrentEnemy { get; private set; }
+    
+    public List<BaseEntity>? Enemies { get; private set; }
     
     private static Random _random = Random.Shared;
 
@@ -21,6 +22,7 @@ public class Game : IGame
         IsGameOver = false;
         CurrentStep = 0;
         Player = new Player(playerName);
+        Enemies = new List<BaseEntity>();
     }
     
     public IGameEvent MoveStep()
@@ -30,16 +32,27 @@ public class Game : IGame
         if (CurrentStep % 10 == 0)
         {
             CurrentStepType = StepType.Enemy;
-            CurrentEnemy = EnemyFactory.CreateRandomBoss();
-            return new EnemyEncounteredEvent(CurrentEnemy, true);
+            var enemyCount = _random.Next(1, 3);
+            Enemies.Add(EnemyFactory.CreateRandomBoss());
+            for (int i = 1; i < enemyCount; i++)
+            {
+                var enemy = EnemyFactory.CreateRandomEnemy();
+                Enemies.Add(enemy);
+            }
+            return new EnemyEncounteredEvent(Enemies, true);
         }
-        
+
         CurrentStepType = (StepType)_random.Next(1, 3);
         switch (CurrentStepType)
         {
             case StepType.Enemy:
-                CurrentEnemy = EnemyFactory.CreateRandomEnemy();
-                return new EnemyEncounteredEvent(CurrentEnemy);
+                var enemyCount = _random.Next(1, 4);
+                for (int i = 0; i < enemyCount; i++)
+                {
+                    var enemy = EnemyFactory.CreateRandomEnemy();
+                    Enemies.Add(enemy);
+                }
+                return new EnemyEncounteredEvent(Enemies);
                 break;
             case StepType.Chest:
                 return new ChestFoundEvent(ItemFactory.CreateRandomItem());
@@ -50,7 +63,7 @@ public class Game : IGame
         }
     }
 
-    public List<IGameEvent> ProcessCombatAction(PlayerAction action)
+    public List<IGameEvent> ProcessCombatAction(PlayerAction action, BaseEntity? enemyToAttack)
     {
         List<IGameEvent> events = new List<IGameEvent>();
         bool dodged = false;
@@ -66,8 +79,8 @@ public class Game : IGame
                 {
                     case PlayerAction.Attack:
                         DamageInfo playerAtk = Player.Attack();
-                        playerAtk = CurrentEnemy.TakeDamage(playerAtk);
-                        events.Add(new PlayerAttackEvent(playerAtk, CurrentEnemy.Hp));
+                        playerAtk = enemyToAttack.TakeDamage(playerAtk);
+                        events.Add(new PlayerAttackEvent(enemyToAttack, playerAtk, enemyToAttack.Hp));
                         break;
                     case PlayerAction.Defend:
                         dodged = Player.Dodge();
@@ -83,32 +96,37 @@ public class Game : IGame
                 }
                 break;
         }
-        if (CurrentEnemy.Hp > 0 && !dodged)
-        {
-            DamageInfo enemyAtk = CurrentEnemy.Attack();
-            enemyAtk = Player.TakeDamage(enemyAtk);
-            Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
-        }
 
-        if (CurrentEnemy.Hp <= 0)
+        for (int i = Enemies.Count - 1; i >= 0; i--)
         {
-            events.Add(new EnemyDefeatedEvent(CurrentEnemy.Name));
-            CurrentEnemy = null;
-            return events;
-        }
-
-        if (Player.Hp <= 0)
-        {
-            events.Add(new PlayerDefeatedEvent(CurrentEnemy.Name));
-            IsGameOver = true;
-            return events;
-        }
-
-        if (!dodged)
-        {
-            DamageInfo enemyDamage = CurrentEnemy.Attack();
-            enemyDamage = Player.TakeDamage(enemyDamage);
-            events.Add(new EnemyAttackEvent(enemyDamage, Player.Hp));
+            var enemy =  Enemies[i];
+            
+            if (enemy.Hp <= 0)
+            {
+                events.Add(new EnemyDefeatedEvent(enemy.Name));
+                Enemies.Remove(enemy);
+                continue;
+            }
+            
+            if (enemy.Hp > 0 && !dodged)
+            {
+                DamageInfo enemyAtk = enemy.Attack();
+                enemyAtk = Player.TakeDamage(enemyAtk);
+            }
+            
+            if (Player.Hp <= 0)
+            {
+                events.Add(new PlayerDefeatedEvent(enemy.Name));
+                IsGameOver = true;
+                return events;
+            }
+            
+            if (!dodged)
+            {
+                DamageInfo enemyDamage = enemy.Attack();
+                enemyDamage = Player.TakeDamage(enemyDamage);
+                events.Add(new EnemyAttackEvent(enemy, enemyDamage, Player.Hp));
+            }
         }
         
         return events;

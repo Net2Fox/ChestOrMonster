@@ -8,9 +8,9 @@ public interface IGame
     public int CurrentStep { get; }
     public StepType CurrentStepType { get; }
     public Player Player { get; }
-    public BaseEntity? CurrentEnemy { get; }
+    public List<BaseEntity>? Enemies { get; }
     
     public IGameEvent MoveStep();
-    public List<IGameEvent> ProcessCombatAction(PlayerAction action);
+    public List<IGameEvent> ProcessCombatAction(PlayerAction action, BaseEntity enemyToAttack);
     public void ProcessItemAction(IBaseItem item, ItemAction action);
 }

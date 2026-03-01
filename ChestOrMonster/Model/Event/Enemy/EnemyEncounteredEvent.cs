@@ -4,12 +4,12 @@ namespace ChestOrMonster.Model.Event.Enemy;
 
 public class EnemyEncounteredEvent : IGameEvent
 {
-    public BaseEntity Enemy { get; }
+    public List<BaseEntity> Enemies { get; }
     public bool IsBoss { get; }
 
-    public EnemyEncounteredEvent(BaseEntity enemy, bool isBoss = false)
+    public EnemyEncounteredEvent(List<BaseEntity> enemies, bool isBoss = false)
     {
-        Enemy = enemy;
+        Enemies = enemies;
         IsBoss = isBoss;
     }
 }

@@ -14,7 +14,7 @@ public class Player : BaseEntity
     public override double Def => Armor.Def;
     public override DamageType AttackType { get; }
     public override StatusEffect Effect { get; protected set; }
-    
+
     private static double _maxHp = 100;
     private static double _dodgeChance = 0.4;
 
