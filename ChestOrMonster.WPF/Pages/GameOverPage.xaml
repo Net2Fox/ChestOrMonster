@@ -7,6 +7,11 @@
       mc:Ignorable="d"
       Title="GameOverPage" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Ты проиграл!" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="32"/>
+        <Button x:Name="ReStartGameButton" Grid.Row="1" Content="Начать заново" Padding="10" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Click="ReStartGameButton_OnClick"/>
     </Grid>
 </Page>
