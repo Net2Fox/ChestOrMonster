@@ -20,7 +20,12 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="../Images/EnemyIcon.png"/>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontSize="16" TextAlignment="Center"/>
+                        <Image Source="../Images/EnemyIcon.png"/>
+                        <TextBlock Text="{Binding Hp, Mode=OneWay, StringFormat=HP: {0:N0}}"/>
+                        <ProgressBar Height="50" Value="{Binding Hp, Mode=OneWay}" Maximum="{Binding Hp, Mode=OneTime}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -30,8 +35,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" x:Name="AttackButton" Content="Атаковать"/>
-            <Button Grid.Column="1" x:Name="DefendButton" Content="Защищаться"/>
+            <Button Grid.Column="0" x:Name="AttackButton" Content="Атаковать" Click="AttackButton_OnClick"/>
+            <Button Grid.Column="1" x:Name="DefendButton" Content="Защищаться" Click="DefendButton_OnClick"/>
         </Grid>
     </Grid>
 </UserControl>
