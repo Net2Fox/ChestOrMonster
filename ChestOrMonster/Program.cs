@@ -119,7 +119,7 @@ class Program
         }
         else
         {
-            enemy = EnemyFactory.CreateRandomEnemy();
+            enemy = EnemyFactory.CreateRandomEnemy(_gameInstance.Player);
         }
         Console.WriteLine($"Вы наткнулись на {enemy.Name}!");
         while (_gameInstance.Player.Hp > 0 & enemy.Hp > 0)
