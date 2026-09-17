@@ -21,7 +21,7 @@ public class Player : BaseEntity
     public Player(string name)
     {
         Name = name;
-        Weapon = new Weapon("Кулаки", 2);
+        Weapon = new Weapon("Кулаки", 2,100);
         Armor = new Armor("Майка", 1);
         Hp = _maxHp;
         AttackType = DamageType.Usual;
@@ -30,6 +30,11 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
+        Random random = new Random();
+        if (Weapon.Percent <= 100)
+        {
+            return new DamageInfo(0, AttackType);
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
