@@ -16,6 +16,13 @@ public static class ItemFactory
         ("Магический посох", 15)
     ];
 
+    private static readonly (string Name, double Damage, double Fidelity)[] Bow = [
+        ("Боевой лук", 8, 0.3),
+        ("Деревянный лук", 5, 0.1),
+        ("Тузовый лук", 100, 1),
+        ("Серебрянный лук", 10, 0.37)
+    ];
+
     private static readonly (string Name, double Def)[] Armors =
     [
         ("Кожаная броня", 3),
@@ -26,12 +33,13 @@ public static class ItemFactory
     
     public static IBaseItem CreateRandomItem()
     {
-        int itemType = _random.Next(0, 3);
+        int itemType = _random.Next(0, 4);
         return itemType switch
         {
             0 => CreateRandomWeapon(),
             1 => CreateRandomArmor(),
-            2 => new HealingPotion()
+            2 => CreateRandomBow(),
+            3 => new HealingPotion()
         };
     }
 
@@ -46,4 +54,11 @@ public static class ItemFactory
         var template = Armors[_random.Next(0, Armors.Length)];
         return new Armor(template.Name, template.Def);
     }
+
+    private static Bow CreateRandomBow()
+    {
+        var template = Bow[_random.Next(0, Bow.Length)];
+        return new Bow(template.Name, template.Damage, template.Fidelity);
+    }
+    
 }

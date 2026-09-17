@@ -129,6 +129,15 @@ class Program
             Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
             switch (_gameInstance.Player.Effect)
             {
+                case StatusEffect.Burning:
+                    Console.WriteLine("Вы горите у вас отнимается 5 поинтов здоровья");
+                    DamageInfo damage = new DamageInfo(5, DamageType.Usual, StatusEffect.None);
+                    _gameInstance.Player.TakeDamage(damage);
+                    break;
+            }
+            
+            switch (_gameInstance.Player.Effect)
+            {
                 case StatusEffect.Frozen:
                     Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
                     _gameInstance.Player.UpdateStatusEffect();
