@@ -1,6 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11925.98 stable
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChestOrMonster", "ChestOrMonster\ChestOrMonster.csproj", "{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B29DD086-83AC-43EB-BFA8-D70AE6CADFA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{924BAB1B-63EE-49BA-93C3-9D04BBBF7F6E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +22,11 @@ Global
 		{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DCB3DB4-62F0-4D1D-AD04-015A7503392E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4185279A-0B2D-44F5-AB8E-5F6E84A0DD7D}
 	EndGlobalSection
 EndGlobal
