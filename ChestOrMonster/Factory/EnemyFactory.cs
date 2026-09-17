@@ -9,14 +9,15 @@ public static class EnemyFactory
 {
     private static Random _random = Random.Shared;
 
-    public static BaseEntity CreateRandomEnemy()
+    public static BaseEntity CreateRandomEnemy(Player player)
     {
-        int roll = _random.Next(0, 3);
+        int roll = _random.Next(0, 4);
         return roll switch
         {
             0 => new Goblin(),
             1 => new Skeleton(),
-            2 => new Mage()
+            2 => new Mage(),
+            3 => new You(player)
         };
     }
 
