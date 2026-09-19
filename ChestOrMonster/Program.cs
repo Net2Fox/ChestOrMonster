@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case IWeapon or Armor:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
@@ -217,7 +217,7 @@ class Program
         StringBuilder stringBuilder = new StringBuilder();
         switch (equipment)
         {
-            case Weapon weapon:
+            case IWeapon weapon:
                 stringBuilder.AppendLine(
                     $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
                 stringBuilder.AppendLine(
