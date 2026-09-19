@@ -3,5 +3,6 @@
 public enum DamageType
 {
     Usual,
-    Pure
+    Pure,
+    AttackOfCat
 }

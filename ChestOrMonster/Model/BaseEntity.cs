@@ -23,8 +23,16 @@ public abstract class BaseEntity
                 double def = Def * (_random.Next(70, 101) / 100d);
                 damage = new DamageInfo(damage.Amount - def, damage.Type, damage.Effect);
                 break;
+            case DamageType.AttackOfCat:
+                double effectiveDef = (Def / 2d) * (_random.Next(70, 101) / 100d);
+                double finalDamage = damage.Amount - effectiveDef;
+                if (_random.NextDouble() < 0.25)
+                {
+                    finalDamage *= 1.5;
+                }
+                damage = new DamageInfo(Math.Max(0, finalDamage), damage.Type, damage.Effect);
+                break;
         }
-
         Effect = damage.Effect;
         Hp -= damage.Amount;
         return damage;

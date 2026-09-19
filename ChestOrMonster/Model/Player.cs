@@ -21,7 +21,7 @@ public class Player : BaseEntity
     public Player(string name)
     {
         Name = name;
-        Weapon = new Weapon("Кулаки", 2);
+        Weapon = new Weapon("Кулаки", 2, 0);
         Armor = new Armor("Майка", 1);
         Hp = _maxHp;
         AttackType = DamageType.Usual;
@@ -30,7 +30,12 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+        double atk = 0;
+        if (_random.NextDouble() < (Weapon as Weapon).CritRate)
+        {
+            atk = Weapon.Damage;
+        }
+        return new DamageInfo(atk, AttackType);
     }
 
     public void UseItem(IBaseItem item)
