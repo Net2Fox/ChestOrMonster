@@ -21,7 +21,7 @@ public class Player : BaseEntity
     public Player(string name)
     {
         Name = name;
-        Weapon = new Weapon("Кулаки", 2);
+        Weapon = new Weapon("Кулаки", 10);
         Armor = new Armor("Майка", 1);
         Hp = _maxHp;
         AttackType = DamageType.Usual;
@@ -30,6 +30,13 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
+        if (Weapon is Bow bow)
+        {
+            if (!bow.IsHit())
+            {
+                return new DamageInfo(0, AttackType);
+            }
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
@@ -42,6 +49,9 @@ public class Player : BaseEntity
                 break;
             case Weapon weapon:
                 Weapon = weapon;
+                break;
+            case Bow bow:
+                Weapon = bow;
                 break;
             case HealingPotion healingPotion:
                 Hp = _maxHp;

@@ -16,7 +16,8 @@ public static class EnemyFactory
         {
             0 => new Goblin(),
             1 => new Skeleton(),
-            2 => new Mage()
+            2 => new Mage(),
+            3 => new Andrey(),
         };
     }
 
