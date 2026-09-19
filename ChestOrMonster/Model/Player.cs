@@ -37,10 +37,10 @@ public class Player : BaseEntity
     {
         switch (item)
         {
-            case Armor armor:
+            case IArmor armor:
                 Armor = armor;
                 break;
-            case Weapon weapon:
+            case IWeapon weapon:
                 Weapon = weapon;
                 break;
             case HealingPotion healingPotion:
