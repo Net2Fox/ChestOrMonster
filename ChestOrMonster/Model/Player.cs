@@ -27,9 +27,17 @@ public class Player : BaseEntity
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
     }
-    
+
     public override DamageInfo Attack()
     {
+        if (Weapon is Bow bow)
+        {
+            if (!bow.IsHit())
+            {
+                return new DamageInfo(0, AttackType);
+            }
+        }
+
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
