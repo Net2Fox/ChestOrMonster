@@ -160,8 +160,14 @@ class Program
             if (enemy.Hp > 0 && !dodged)
             {
                 DamageInfo enemyAtk = enemy.Attack();
-                enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
-                Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
+                if (enemyAtk.Amount == 0) {
+                    Console.WriteLine($"Враг нанёс по себе {enemy.Atk:F2}!");
+                }
+                else
+                {
+                    enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
+                    Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
+                }
             }
             Thread.Sleep(1000);
         }
