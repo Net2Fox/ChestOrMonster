@@ -217,14 +217,14 @@ class Program
         StringBuilder stringBuilder = new StringBuilder();
         switch (equipment)
         {
-            case Weapon weapon:
+            case IWeapon weapon:
                 stringBuilder.AppendLine(
                     $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
-            case Armor armor:
+            case IArmor armor:
                 stringBuilder.AppendLine(
                     $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Armor.Name}, {_gameInstance.Player.Armor.Def}.")}");
                 stringBuilder.AppendLine(
