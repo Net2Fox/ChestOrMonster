@@ -30,6 +30,11 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
+        double atk = 0;
+        if (_random.NextDouble() < (Weapon as Weapon).CritRate)
+        {
+            atk = Weapon.Damage;
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 

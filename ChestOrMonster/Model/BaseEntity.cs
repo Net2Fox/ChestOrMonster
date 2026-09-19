@@ -20,9 +20,11 @@ public abstract class BaseEntity
         switch (damage.Type)
         {
             case DamageType.Usual:
-                double def = Def * (_random.Next(70, 101) / 100d);
+            case DamageType.UdarPoSebe:
+                double def = Def * (_random.Next(70, 101) / 100d);  
                 damage = new DamageInfo(damage.Amount - def, damage.Type, damage.Effect);
                 break;
+
         }
 
         Effect = damage.Effect;
