@@ -14,6 +14,7 @@ public abstract class BaseEntity
     public abstract StatusEffect Effect { get; protected set; }
     
     public abstract DamageInfo Attack();
+    public int bloodlosetimes { get; set; }
 
     public virtual DamageInfo TakeDamage(DamageInfo damage)
     {
@@ -32,6 +33,20 @@ public abstract class BaseEntity
     
     public virtual void UpdateStatusEffect()
     {
+        switch (Effect)
+        {
+            case StatusEffect.BloodLose:
+                Hp -= 2;
+                break;
+            default:
+                Effect = StatusEffect.None;
+                break;
+        }
+        
+    }
+    public virtual void ResetStatusEffect()
+    {
         Effect = StatusEffect.None;
+
     }
 }

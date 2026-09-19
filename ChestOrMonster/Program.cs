@@ -1,10 +1,11 @@
-﻿using System.Text;
-using ChestOrMonster.Factory;
+﻿using ChestOrMonster.Factory;
 using ChestOrMonster.Interface;
 using ChestOrMonster.Model;
 using ChestOrMonster.Model.Enemy;
 using ChestOrMonster.Model.Enemy.Boss;
 using ChestOrMonster.Model.Item;
+using System;
+using System.Text;
 
 namespace ChestOrMonster;
 
@@ -133,28 +134,13 @@ class Program
                     Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
                     _gameInstance.Player.UpdateStatusEffect();
                     break;
+                case StatusEffect.BloodLose:
+                    Console.WriteLine("Вы теряете кровь");
+                    _gameInstance.Player.UpdateStatusEffect();
+                    UserPlay(enemy, dodged);
+                    break;
                 case StatusEffect.None:
-                    Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
-                    int playerChoice = UserChoice(1, 2);
-                    switch (playerChoice)
-                    {
-                        case 1:
-                            DamageInfo playerAtk = _gameInstance.Player.Attack();
-                            playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
-                            break;
-                        case 2:
-                            if (_gameInstance.Player.Dodge())
-                            {
-                                Console.WriteLine("Вы уклонились от атаки врага!");
-                                dodged = true;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Вы не смогли уклониться!");
-                            }
-                            break;
-                    }
+                    UserPlay(enemy, dodged);
                     break;
             }
             if (enemy.Hp > 0 && !dodged)
@@ -174,10 +160,35 @@ class Program
         }
         
         Console.WriteLine($"Вы убили {enemy.Name}!");
+        _gameInstance.Player.ResetStatusEffect();
         return true;
 
     }
 
+    static void UserPlay(BaseEntity enemy, bool dodged)
+    {
+        Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
+        int playerChoice = UserChoice(1, 2);
+        switch (playerChoice)
+        {
+            case 1:
+                DamageInfo playerAtk = _gameInstance.Player.Attack();
+                playerAtk = enemy.TakeDamage(playerAtk);
+                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                break;
+            case 2:
+                if (_gameInstance.Player.Dodge())
+                {
+                    Console.WriteLine("Вы уклонились от атаки врага!");
+                    dodged = true;
+                }
+                else
+                {
+                    Console.WriteLine("Вы не смогли уклониться!");
+                }
+                break;
+        }
+    }
     static int UserChoice(int minChoice, int maxChoice)
     {
         while (true)
