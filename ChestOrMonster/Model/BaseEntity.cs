@@ -14,6 +14,7 @@ public abstract class BaseEntity
     public abstract StatusEffect Effect { get; protected set; }
     
     public abstract DamageInfo Attack();
+    public abstract DamageInfo Defence();
 
     public virtual DamageInfo TakeDamage(DamageInfo damage)
     {
