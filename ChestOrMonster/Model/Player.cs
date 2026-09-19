@@ -30,7 +30,7 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+        return new DamageInfo(Weapon.GetDamage(), AttackType);
     }
 
     public void UseItem(IBaseItem item)

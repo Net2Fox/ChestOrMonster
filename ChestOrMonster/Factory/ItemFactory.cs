@@ -13,7 +13,8 @@ public static class ItemFactory
         ("Стальной меч", 10),
         ("Боевой топор", 12),
         ("Длинный лук", 8),
-        ("Магический посох", 15)
+        ("Магический посох", 15),
+        ("Лук с кухни", 20)
     ];
 
     private static readonly (string Name, double Def)[] Armors =
@@ -38,6 +39,10 @@ public static class ItemFactory
     private static Weapon CreateRandomWeapon()
     {
         var template = Weapons[_random.Next(0, Weapons.Length)];
+        if (template.Name == "Лук с кухни")
+        {
+            return new Onion(template.Name, template.Damage, 0.7);
+        }
         return new Weapon(template.Name, template.Damage);
     }
     
