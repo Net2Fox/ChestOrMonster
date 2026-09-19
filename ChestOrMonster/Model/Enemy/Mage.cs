@@ -32,4 +32,8 @@ public class Mage : BaseEntity
         }
         return new DamageInfo(Atk, AttackType, effect);
     }
+    public override DamageInfo Defence()
+    {
+        return new DamageInfo(Def);
+    }
 }

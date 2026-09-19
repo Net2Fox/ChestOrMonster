@@ -32,4 +32,8 @@ public class Goblin : BaseEntity
         }
         return new DamageInfo(finalAtk, AttackType);
     }
+    public override DamageInfo Defence()
+    {
+        return new DamageInfo(Def);
+    }
 }

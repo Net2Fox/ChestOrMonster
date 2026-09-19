@@ -25,4 +25,8 @@ public class Skeleton : BaseEntity
     {
         return new DamageInfo(Atk, AttackType);
     }
+    public override DamageInfo Defence()
+    {
+        return new DamageInfo(Def);
+    }
 }
