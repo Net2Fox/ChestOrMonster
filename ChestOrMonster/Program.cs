@@ -160,8 +160,16 @@ class Program
             if (enemy.Hp > 0 && !dodged)
             {
                 DamageInfo enemyAtk = enemy.Attack();
-                enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
-                Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
+
+                if (enemyAtk.IsMiss)
+                {
+                    Console.WriteLine($"{enemy.Name} промахнулся и пропустил атаку!");
+                }
+                else
+                {
+                    enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
+                    Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
+                }
             }
             Thread.Sleep(1000);
         }
