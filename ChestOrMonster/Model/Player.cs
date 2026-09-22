@@ -1,4 +1,5 @@
-﻿using ChestOrMonster.Interface;
+﻿using System;
+using ChestOrMonster.Interface;
 using ChestOrMonster.Model.Item;
 
 namespace ChestOrMonster.Model;
@@ -7,16 +8,17 @@ public class Player : BaseEntity
 {
     public IWeapon Weapon { get; private set; }
     public IArmor Armor { get; private set; }
-    
+
     public override string Name { get; }
     public override double Hp { get; protected set; } = _maxHp;
     public override double Atk => Weapon.Damage;
     public override double Def => Armor.Def;
     public override DamageType AttackType { get; }
     public override StatusEffect Effect { get; protected set; }
-    
+
     private static double _maxHp = 100;
     private static double _dodgeChance = 0.4;
+    private Random _random = new Random();
 
     public Player(string name)
     {
@@ -27,9 +29,13 @@ public class Player : BaseEntity
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
     }
-    
+
     public override DamageInfo Attack()
     {
+        if (Weapon is Bow bow)
+        {
+            return new DamageInfo(bow.Shoot(), AttackType);
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
@@ -40,9 +46,21 @@ public class Player : BaseEntity
             case Armor armor:
                 Armor = armor;
                 break;
+
             case Weapon weapon:
+                bool currentIsBow = Weapon is Bow;
+                bool newIsBow = weapon is Bow;
+
+                if (currentIsBow != newIsBow)
+                {
+                    Console.WriteLine("Нельзя одновременно использовать лук и оружие ближнего боя!");
+                    Console.WriteLine("Сначала снимите текущее оружие.");
+                    break;
+                }
+
                 Weapon = weapon;
                 break;
+
             case HealingPotion healingPotion:
                 Hp = _maxHp;
                 break;
@@ -50,7 +68,7 @@ public class Player : BaseEntity
                 throw new ArgumentOutOfRangeException(nameof(item), item, null);
         }
     }
-    
+
     public bool Dodge()
     {
         if (_random.NextDouble() < _dodgeChance)
