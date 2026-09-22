@@ -27,9 +27,10 @@ class Program
             Console.WriteLine("Добро пожаловать в игру \"Сундуки и Монстры\"!");
             Console.WriteLine("1. Начать");
             Console.WriteLine("2. Об игре");
+            Console.WriteLine("3. Мяу");
             Console.WriteLine("0. Выйти");
 
-            int playerChoice = UserChoice(0, 2);
+            int playerChoice = UserChoice(0, 3);
             switch (playerChoice)
             {
                 case 1:
@@ -46,6 +47,9 @@ class Program
                 case 2:
                     WriteHelp();
                     break;
+                case 3:
+                    Console.WriteLine("Мяу");
+                    return;
                 case 0:
                     Console.WriteLine("Прощай!");
                     return;
@@ -140,8 +144,15 @@ class Program
                     {
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
-                            playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            if (_random.NextDouble() >= _gameInstance.Player.Weapon.Accuracy)
+                            {
+                                Console.WriteLine("Вы промахнулись!");
+                            }
+                            else
+                            {
+                                playerAtk = enemy.TakeDamage(playerAtk);
+                                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            }
                             break;
                         case 2:
                             if (_gameInstance.Player.Dodge())
