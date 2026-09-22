@@ -17,9 +17,17 @@ public abstract class BaseEntity
 
     public virtual DamageInfo TakeDamage(DamageInfo damage)
     {
+        if(Effect == StatusEffect.Burning)
+        {
+            Hp -= damage.Amount;
+            Console.WriteLine("Вы горите!Ваша броня вас не спасает!");
+            UpdateStatusEffect();
+            return damage;
+        }
         switch (damage.Type)
         {
             case DamageType.Usual:
+                
                 double def = Def * (_random.Next(70, 101) / 100d);
                 damage = new DamageInfo(damage.Amount - def, damage.Type, damage.Effect);
                 break;
