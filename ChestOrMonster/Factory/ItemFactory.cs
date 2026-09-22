@@ -12,8 +12,13 @@ public static class ItemFactory
         ("Деревянный меч", 5),
         ("Стальной меч", 10),
         ("Боевой топор", 12),
-        ("Длинный лук", 8),
         ("Магический посох", 15)
+    ];
+
+    private static readonly (string Name, double Damage, double Accuracy)[] Bows =
+    [
+        ("Охотничий лук", 9, 0.75),
+        ("Эльфийский лук", 12, 0.85)
     ];
 
     private static readonly (string Name, double Def)[] Armors =
@@ -31,12 +36,19 @@ public static class ItemFactory
         {
             0 => CreateRandomWeapon(),
             1 => CreateRandomArmor(),
-            2 => new HealingPotion()
+            2 => new HealingPotion(),
+            _ => throw new InvalidOperationException("Не удалось выбрать предмет.")
         };
     }
 
-    private static Weapon CreateRandomWeapon()
+    private static IWeapon CreateRandomWeapon()
     {
+        if (_random.Next(0, 2) == 1)
+        {
+            var bowTemplate = Bows[_random.Next(0, Bows.Length)];
+            return new Bow(bowTemplate.Name, bowTemplate.Damage, bowTemplate.Accuracy);
+        }
+
         var template = Weapons[_random.Next(0, Weapons.Length)];
         return new Weapon(template.Name, template.Damage);
     }

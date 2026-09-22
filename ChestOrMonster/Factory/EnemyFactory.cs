@@ -11,12 +11,14 @@ public static class EnemyFactory
 
     public static BaseEntity CreateRandomEnemy()
     {
-        int roll = _random.Next(0, 3);
+        int roll = _random.Next(0, 4);
         return roll switch
         {
             0 => new Goblin(),
             1 => new Skeleton(),
-            2 => new Mage()
+            2 => new Mage(),
+            3 => new Berserker(),
+            _ => throw new InvalidOperationException("Не удалось выбрать врага.")
         };
     }
 
@@ -27,7 +29,8 @@ public static class EnemyFactory
         {
             0 => new Orc(),
             1 => new GiantSkeleton(),
-            2 => new Archmage()
+            2 => new Archmage(),
+            _ => throw new InvalidOperationException("Не удалось выбрать босса.")
         };
     }
 }
