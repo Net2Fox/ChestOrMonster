@@ -21,7 +21,7 @@ public class Player : BaseEntity
     public Player(string name)
     {
         Name = name;
-        Weapon = new Weapon("Кулаки", 2);
+        Weapon = new Weapon("Кулаки", 2, 1);
         Armor = new Armor("Майка", 1);
         Hp = _maxHp;
         AttackType = DamageType.Usual;
@@ -30,7 +30,23 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+        if(Weapon.Accuracy != 1)
+        {
+            Random rand = new Random();
+            int chance = rand.Next(0, 100);
+            if(chance <= 100 * Weapon.Accuracy)
+            {
+                return new DamageInfo(Weapon.Damage, AttackType);
+            }
+            else
+            {
+                return new DamageInfo(0, AttackType);
+            }
+        }
+        else
+        {
+            return new DamageInfo(Weapon.Damage, AttackType);
+        }
     }
 
     public void UseItem(IBaseItem item)
