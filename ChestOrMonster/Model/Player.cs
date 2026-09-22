@@ -15,13 +15,13 @@ public class Player : BaseEntity
     public override DamageType AttackType { get; }
     public override StatusEffect Effect { get; protected set; }
     
-    private static double _maxHp = 100;
-    private static double _dodgeChance = 0.4;
+    private static double _maxHp = 150;
+    private static double _dodgeChance = 0.45;
 
     public Player(string name)
     {
         Name = name;
-        Weapon = new Weapon("Кулаки", 2);
+        Weapon = new Weapon("Кулаки", 3);
         Armor = new Armor("Майка", 1);
         Hp = _maxHp;
         AttackType = DamageType.Usual;
