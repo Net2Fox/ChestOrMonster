@@ -13,7 +13,8 @@ public static class ItemFactory
         ("Стальной меч", 10),
         ("Боевой топор", 12),
         ("Длинный лук", 8),
-        ("Магический посох", 15)
+        ("Магический посох", 15),
+        ("Кристальный лук", 20)
     ];
 
     private static readonly (string Name, double Def)[] Armors =

@@ -139,6 +139,12 @@ class Program
                     switch (playerChoice)
                     {
                         case 1:
+                            if (_gameInstance.Player.Weapon.Name.Contains("лук")){
+                                if (_random.NextDouble() < 0.3) {
+                                    Console.WriteLine("Вы промахнулись!");
+                                    break;
+                                }
+                            }
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
                             playerAtk = enemy.TakeDamage(playerAtk);
                             Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
