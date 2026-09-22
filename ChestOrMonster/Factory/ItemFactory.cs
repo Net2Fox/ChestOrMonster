@@ -38,6 +38,7 @@ public static class ItemFactory
     private static Weapon CreateRandomWeapon()
     {
         var template = Weapons[_random.Next(0, Weapons.Length)];
+        if (template.Name.ToLower().Contains("лук")) return new Bow(template.Name, template.Damage, _random.NextDouble() * 100);
         return new Weapon(template.Name, template.Damage);
     }
     
