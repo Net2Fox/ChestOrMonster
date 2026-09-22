@@ -30,6 +30,10 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
+        if(Weapon is Bow bow && !bow.IsHit())
+        {
+            return new DamageInfo(0, AttackType);
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 

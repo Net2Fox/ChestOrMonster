@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case Weapon or Bow or Armor:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
@@ -140,6 +140,10 @@ class Program
                     {
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            if(playerAtk.Amount == 0 && _gameInstance.Player.Weapon is Bow)
+                            {
+                                Console.WriteLine("Вы промахнулись из лука!");
+                            }
                             playerAtk = enemy.TakeDamage(playerAtk);
                             Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
                             break;

@@ -25,7 +25,7 @@ namespace ChestOrMonster.Model.Enemy
             Def = 50;
             AttackType = DamageType.Pure;
             Effect = StatusEffect.None;
-            CritRate = 50;
+            CritRate = 0.5;
         }
         public override DamageInfo Attack()
         {
