@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case Weapon or Armor or Bow:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
