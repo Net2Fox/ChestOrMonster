@@ -13,7 +13,8 @@ public static class ItemFactory
         ("Стальной меч", 10),
         ("Боевой топор", 12),
         ("Длинный лук", 8),
-        ("Магический посох", 15)
+        ("Магический посох", 15),
+        ("Лук (не длинный)", 12)
     ];
 
     private static readonly (string Name, double Def)[] Armors =
@@ -21,7 +22,8 @@ public static class ItemFactory
         ("Кожаная броня", 3),
         ("Кольчуга", 6),
         ("Латные доспехи", 10),
-        ("Магический плащ", 8)
+        ("Магический плащ", 8),
+        ("Мега крутая броня", 20)
     ];
     
     public static IBaseItem CreateRandomItem()
