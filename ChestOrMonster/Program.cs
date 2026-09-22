@@ -12,7 +12,7 @@ class Program
 {
     private static Random _random = Random.Shared;
 
-    private static Game _gameInstance;
+    private static Game _gameInstance = null!;
     static void Main(string[] args)
     {
         Console.WriteLine("Добро пожаловать в игру \"Сундуки и Монстры\"!");
@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case IWeapon or Armor:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
@@ -141,7 +141,14 @@ class Program
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
                             playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            if (playerAtk.Amount == 0 && _gameInstance.Player.Weapon is Bow)
+                            {
+                                Console.WriteLine("Стрела пролетела мимо цели!");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            }
                             break;
                         case 2:
                             if (_gameInstance.Player.Dodge())
@@ -217,11 +224,15 @@ class Program
         StringBuilder stringBuilder = new StringBuilder();
         switch (equipment)
         {
-            case Weapon weapon:
+            case IWeapon weapon:
                 stringBuilder.AppendLine(
                     $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
+                if (weapon is Bow bow)
+                {
+                    stringBuilder.AppendLine($"Точность лука: {bow.Accuracy:P0}");
+                }
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
             case Armor armor:
