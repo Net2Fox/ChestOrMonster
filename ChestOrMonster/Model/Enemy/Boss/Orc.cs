@@ -13,11 +13,12 @@ public class Orc : Goblin
     public Orc()
     {
         Name = "Орк";
-        Hp = 20;
-        Atk = 5;
+        Hp = 80;
+        Atk = 7;
         Def = 2;
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
         CritRate = 0.4;
     }
+   
 }
