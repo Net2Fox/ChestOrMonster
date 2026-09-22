@@ -30,7 +30,19 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+        if (Weapon.Name == "Лук")
+        {
+            if (_random.NextDouble() < 0.5)
+            {
+                return new DamageInfo(Weapon.Damage, AttackType);
+            }
+            else
+            {
+                return new DamageInfo(0, AttackType);
+            }
+        }
+        else
+            return new DamageInfo(Weapon.Damage, AttackType);
     }
 
     public void UseItem(IBaseItem item)
