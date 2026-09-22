@@ -14,7 +14,8 @@ public class Player : BaseEntity
     public override double Def => Armor.Def;
     public override DamageType AttackType { get; }
     public override StatusEffect Effect { get; protected set; }
-    
+    protected virtual double DamageRate { get; set; }
+
     private static double _maxHp = 100;
     private static double _dodgeChance = 0.4;
 
@@ -26,11 +27,17 @@ public class Player : BaseEntity
         Hp = _maxHp;
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
+        DamageRate = 1;
     }
-    
+
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+        DamageRate = Weapon.Name == "Лук (не длинный)" ? 0.7  : 1.0; 
+        bool missed = _random.NextDouble() >= DamageRate;
+        return new DamageInfo(
+            missed ? 0 : Weapon.Damage,
+            AttackType
+        );
     }
 
     public void UseItem(IBaseItem item)

@@ -133,7 +133,18 @@ class Program
                     Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
                     _gameInstance.Player.UpdateStatusEffect();
                     break;
+                case StatusEffect.Rot:
                 case StatusEffect.None:
+
+                    if (_gameInstance.Player.Effect == StatusEffect.Rot)
+                    {
+                        DamageInfo rotDamage = new DamageInfo(5, DamageType.Pure);
+                        _gameInstance.Player.TakeDamage(rotDamage);
+                        _gameInstance.Player.UpdateStatusEffect();
+                        Console.WriteLine("Вас завоняли, вы получили 5 урона");
+                        break;
+                    }
+
                     Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
                     int playerChoice = UserChoice(1, 2);
                     switch (playerChoice)
@@ -141,6 +152,10 @@ class Program
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
                             playerAtk = enemy.TakeDamage(playerAtk);
+                            if (playerAtk.Amount == 0)
+                            {
+                                Console.WriteLine("Вы промахнулись");
+                            }
                             Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
                             break;
                         case 2:

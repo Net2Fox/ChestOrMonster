@@ -11,23 +11,25 @@ public static class EnemyFactory
 
     public static BaseEntity CreateRandomEnemy()
     {
-        int roll = _random.Next(0, 3);
+        int roll = _random.Next(0, 4);
         return roll switch
         {
             0 => new Goblin(),
             1 => new Skeleton(),
-            2 => new Mage()
+            2 => new Mage(),
+            3 => new Pudge()
         };
     }
 
     public static BaseEntity CreateRandomBoss()
     {
-        int roll = _random.Next(0, 3);
+        int roll = _random.Next(0, 4);
         return roll switch
         {
             0 => new Orc(),
             1 => new GiantSkeleton(),
-            2 => new Archmage()
+            2 => new Archmage(),
+            3 => new Pudge()
         };
     }
 }
