@@ -30,6 +30,14 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
+        if (Weapon is Bow bow)
+        {
+            if (!bow.IsHit())
+            {
+                return new DamageInfo(0, AttackType);
+            }
+        }
+
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
@@ -39,6 +47,9 @@ public class Player : BaseEntity
         {
             case Armor armor:
                 Armor = armor;
+                break;
+            case Bow bow:
+                Weapon = bow;
                 break;
             case Weapon weapon:
                 Weapon = weapon;
