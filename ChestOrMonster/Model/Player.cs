@@ -43,6 +43,9 @@ public class Player : BaseEntity
             case Weapon weapon:
                 Weapon = weapon;
                 break;
+            case Bow bow:
+                Weapon = bow;
+                break;
             case HealingPotion healingPotion:
                 Hp = _maxHp;
                 break;
