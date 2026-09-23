@@ -127,6 +127,7 @@ class Program
             bool dodged = false;
             Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
             Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
+   
             switch (_gameInstance.Player.Effect)
             {
                 case StatusEffect.Frozen:
@@ -139,9 +140,16 @@ class Program
                     switch (playerChoice)
                     {
                         case 1:
-                            DamageInfo playerAtk = _gameInstance.Player.Attack();
-                            playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            if (_gameInstance.Player.Hit())
+                            {
+                                Console.WriteLine("Ты не попал!");
+                            }
+                            else
+                            {
+                                DamageInfo playerAtk = _gameInstance.Player.Attack();
+                                playerAtk = enemy.TakeDamage(playerAtk);
+                                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            }
                             break;
                         case 2:
                             if (_gameInstance.Player.Dodge())
@@ -164,6 +172,12 @@ class Program
                 Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
             }
             Thread.Sleep(1000);
+            if (_gameInstance.Player.Effect == StatusEffect.Sucked)
+            {
+                Console.WriteLine("Лич высосал из тебя жизнь своей атакой!");
+
+                _gameInstance.Player.UpdateStatusEffect();
+            }
         }
 
         if (_gameInstance.Player.Hp <= 0)
