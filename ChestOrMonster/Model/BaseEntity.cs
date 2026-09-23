@@ -22,7 +22,7 @@ public abstract class BaseEntity
             case DamageType.Usual:
                 double def = Def * (_random.Next(70, 101) / 100d);
                 damage = new DamageInfo(damage.Amount - def, damage.Type, damage.Effect);
-                break;
+                break;        
         }
 
         Effect = damage.Effect;

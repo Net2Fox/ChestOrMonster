@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using ChestOrMonster.Factory;
 using ChestOrMonster.Interface;
 using ChestOrMonster.Model;
@@ -133,16 +134,27 @@ class Program
                     Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
                     _gameInstance.Player.UpdateStatusEffect();
                     break;
+               
+                 
                 case StatusEffect.None:
                     Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
                     int playerChoice = UserChoice(1, 2);
                     switch (playerChoice)
                     {
                         case 1:
-                            DamageInfo playerAtk = _gameInstance.Player.Attack();
-                            playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                        
+                            if ( _gameInstance.Player.Weapon.Shans < 0.3)
+                            {
+                                Console.WriteLine("Вы промахнулись!");
+                            }
+                            else
+                            {
+                                DamageInfo playerAtk = _gameInstance.Player.Attack();
+                                playerAtk = enemy.TakeDamage(playerAtk);
+                                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            }
                             break;
+
                         case 2:
                             if (_gameInstance.Player.Dodge())
                             {
@@ -163,6 +175,10 @@ class Program
                 enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
                 Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
             }
+
+           
+
+
             Thread.Sleep(1000);
         }
 

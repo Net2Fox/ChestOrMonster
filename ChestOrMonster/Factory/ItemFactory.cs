@@ -7,13 +7,14 @@ public static class ItemFactory
 {
     private static Random _random = Random.Shared;
 
-    private static readonly (string Name, double Damage)[] Weapons =
+    private static readonly (string Name, double Damage, double shans)[] Weapons =
     [
-        ("Деревянный меч", 5),
-        ("Стальной меч", 10),
-        ("Боевой топор", 12),
-        ("Длинный лук", 8),
-        ("Магический посох", 15)
+        ("Деревянный меч", 5, 1),
+        ("Стальной меч", 10, 1),
+        ("Боевой топор", 12, 1),
+        ("Длинный лук", 8, 1),
+        ("Магический посох", 15, 1),
+        ("Лук из травы", 10, 0.4)
     ];
 
     private static readonly (string Name, double Def)[] Armors =
@@ -38,9 +39,11 @@ public static class ItemFactory
     private static Weapon CreateRandomWeapon()
     {
         var template = Weapons[_random.Next(0, Weapons.Length)];
-        return new Weapon(template.Name, template.Damage);
+        return new Weapon(template.Name, template.Damage, template.shans);
     }
-    
+
+   
+
     private static Armor CreateRandomArmor()
     {
         var template = Armors[_random.Next(0, Armors.Length)];

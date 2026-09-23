@@ -17,7 +17,7 @@ public class Player : BaseEntity
     
     private static double _maxHp = 100;
     private static double _dodgeChance = 0.4;
-
+    private static double _shansChance = 0.7;
     public Player(string name)
     {
         Name = name;
@@ -54,6 +54,15 @@ public class Player : BaseEntity
     public bool Dodge()
     {
         if (_random.NextDouble() < _dodgeChance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool Accuracy()
+    {
+        if (_random.NextDouble() < _shansChance)
         {
             return true;
         }
