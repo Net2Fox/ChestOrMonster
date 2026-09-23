@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case Weapon or Armor or Bow:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
@@ -140,8 +140,16 @@ class Program
                     {
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            bool missed = playerAtk.Amount <= 0;
                             playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            if (missed)
+                            {
+                                Console.WriteLine("Вы промахнулись!");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            }
                             break;
                         case 2:
                             if (_gameInstance.Player.Dodge())
@@ -222,6 +230,13 @@ class Program
                     $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
                 stringBuilder.AppendLine(
                     $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
+                stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
+                break;
+            case Bow bow:
+                stringBuilder.AppendLine(
+                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
+                stringBuilder.AppendLine(
+                    $"Характеристики нового лука: {bow.Name}, урон {bow.Damage}, точность {bow.Accuracy:P0}");
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
             case Armor armor:
