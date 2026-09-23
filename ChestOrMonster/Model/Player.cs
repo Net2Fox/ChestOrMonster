@@ -21,16 +21,20 @@ public class Player : BaseEntity
     public Player(string name)
     {
         Name = name;
-        Weapon = new Weapon("Кулаки", 2);
+        Weapon = new Weapon("Кулаки", 2, 1);
         Armor = new Armor("Майка", 1);
         Hp = _maxHp;
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
     }
-    
+
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+        if (_random.NextDouble() <= Weapon.Accuracy)
+        {
+            return new DamageInfo(Weapon.Damage, AttackType);
+        }
+        return new DamageInfo(0, AttackType);
     }
 
     public void UseItem(IBaseItem item)
