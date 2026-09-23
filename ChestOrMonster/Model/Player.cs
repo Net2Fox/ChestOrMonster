@@ -21,7 +21,7 @@ public class Player : BaseEntity
     public Player(string name)
     {
         Name = name;
-        Weapon = new Weapon("Кулаки", 2);
+        Weapon = new Weapon("Кулаки", 2, 1);
         Armor = new Armor("Майка", 1);
         Hp = _maxHp;
         AttackType = DamageType.Usual;
@@ -30,7 +30,7 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+            return new DamageInfo(Weapon.Damage, AttackType);
     }
 
     public void UseItem(IBaseItem item)
@@ -54,6 +54,15 @@ public class Player : BaseEntity
     public bool Dodge()
     {
         if (_random.NextDouble() < _dodgeChance)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool Hit()
+    {
+        if (_random.NextDouble() > Weapon.Chance)
         {
             return true;
         }
