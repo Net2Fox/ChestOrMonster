@@ -156,6 +156,31 @@ class Program
                             break;
                     }
                     break;
+                case StatusEffect.Scared:
+                    Console.WriteLine("Вас напугали! Наносимый урон снижен.");
+                    Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
+                    int choice = UserChoice(1, 2);
+                    switch (choice)
+                    {
+                        case 1:
+                            DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            playerAtk = enemy.TakeDamage(playerAtk);
+                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            break;
+                        case 2:
+                            if (_gameInstance.Player.Dodge())
+                            {
+                                Console.WriteLine("Вы уклонились от атаки врага!");
+                                dodged = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Вы не смогли уклониться!");
+                            }
+                            break;
+                    }
+                    _gameInstance.Player.UpdateStatusEffect();
+                    break;
             }
             if (enemy.Hp > 0 && !dodged)
             {

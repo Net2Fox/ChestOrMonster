@@ -30,7 +30,23 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
-        return new DamageInfo(Weapon.Damage, AttackType);
+        DamageInfo damageInfo = new DamageInfo(Weapon.Damage, AttackType);
+        switch (Weapon)
+        {
+            case Bow bow:
+                if (_random.NextDouble() < 1 - bow.Accuracy) 
+                {
+                    damageInfo = new DamageInfo(0, DamageType.Miss);
+                }
+                break;
+        }
+
+
+        if(Effect == StatusEffect.Scared)
+        {
+            damageInfo = new DamageInfo(damageInfo.Amount / 2, damageInfo.Type);
+        }
+        return damageInfo;
     }
 
     public void UseItem(IBaseItem item)
