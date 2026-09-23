@@ -13,7 +13,7 @@ public static class ItemFactory
         ("Стальной меч", 10),
         ("Боевой топор", 12),
         ("Длинный лук", 8),
-        ("Магический посох", 15)
+        ("Магический посох", 15),
     ];
 
     private static readonly (string Name, double Def)[] Armors =
@@ -23,7 +23,13 @@ public static class ItemFactory
         ("Латные доспехи", 10),
         ("Магический плащ", 8)
     ];
-    
+
+    private static readonly (string Name, double Damage, double Accuracy)[] Bows =
+[
+    ("Длинный лук" ,5, 0.4),
+    ("Лук имени Тимура Муцураева" ,10, 0.9)
+];
+
     public static IBaseItem CreateRandomItem()
     {
         int itemType = _random.Next(0, 3);
