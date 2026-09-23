@@ -140,8 +140,16 @@ class Program
                     {
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            bool missed = playerAtk.Amount <= 0;
                             playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            if (missed)
+                            {
+                                Console.WriteLine("Вы промахнулись!");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            }
                             break;
                         case 2:
                             if (_gameInstance.Player.Dodge())
@@ -172,7 +180,7 @@ class Program
             Thread.Sleep(15000);
             return false;
         }
-        
+
         Console.WriteLine($"Вы убили {enemy.Name}!");
         return true;
 
