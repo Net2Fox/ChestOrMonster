@@ -220,8 +220,14 @@ class Program
             case Weapon weapon:
                 stringBuilder.AppendLine(
                     $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
-                stringBuilder.AppendLine(
-                    $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
+                if (weapon is Bow bow)
+                {
+                    stringBuilder.AppendLine($"Характеристики нового оружия: {bow.Name}, {bow.Damage}, точность {bow.Accuracy:P0}");
+                }
+                else
+                {
+                    stringBuilder.AppendLine($"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
+                }
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
             case Armor armor:
