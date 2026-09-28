@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case Weapon or Crossbow or Armor:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
@@ -126,6 +126,7 @@ class Program
         {
             bool dodged = false;
             Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
+            string accuracyInfo = _gameInstance.Player.Weapon is ICrossbow playerCrossbow? $"\n\tТочность: {playerCrossbow.Accuracy:P0}": string.Empty;
             Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
             switch (_gameInstance.Player.Effect)
             {
@@ -140,8 +141,15 @@ class Program
                     {
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
-                            playerAtk = enemy.TakeDamage(playerAtk);
-                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            if (playerAtk.IsMiss)
+                            {
+                                Console.WriteLine("Вы промахнулись мимо цели!");
+                            }
+                            else
+                            {
+                                playerAtk = enemy.TakeDamage(playerAtk);
+                                Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            }
                             break;
                         case 2:
                             if (_gameInstance.Player.Dodge())
@@ -217,7 +225,13 @@ class Program
         StringBuilder stringBuilder = new StringBuilder();
         switch (equipment)
         {
-            case Weapon weapon:
+            case IWeapon weapon:
+                string currentWeaponInfo = _gameInstance.Player.Weapon is ICrossbow currentCrossbow
+                   ? $"{_gameInstance.Player.Weapon.Name}, урон {_gameInstance.Player.Weapon.Damage}, точность {currentCrossbow.Accuracy:P0}"
+                   : $"{_gameInstance.Player.Weapon.Name}, урон {_gameInstance.Player.Weapon.Damage}";
+                string newWeaponInfo = weapon is ICrossbow newCrossbow
+                    ? $"{weapon.Name}, урон {weapon.Damage}, точность {newCrossbow.Accuracy:P0}"
+                    : $"{weapon.Name}, урон {weapon.Damage}";
                 stringBuilder.AppendLine(
                     $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
                 stringBuilder.AppendLine(
