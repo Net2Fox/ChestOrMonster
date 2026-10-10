@@ -16,6 +16,8 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Добро пожаловать в игру \"Сундуки и Монстры\"!");
+        Console.OutputEncoding = Encoding.UTF8;
+        Console.InputEncoding = Encoding.UTF8;
         StartMenu();
     }
 
@@ -59,6 +61,7 @@ class Program
         Console.WriteLine("Игра \"Сундуки и Монстры\" представляет собой пошаговую текстовую игру рогалик.\nПрактические все элементы игры генерируются случайно.");
         Console.WriteLine("Вы искатель приключений и бродите по миру в поиске приключений на свою голову.\nНа каждом ходу вам может попасться *сундук* или *монстр*.");
         Console.WriteLine("Из сундука вам может выпасть предмет - лечебное зелье, оружие или доспех.\n\tОт оружия зависит сила атаки.\n\tОт доспехов зависит защита.");
+        Console.WriteLine("Среди оружия встречаются луки. Лук наносит урон только при попадании, шанс зависит от его точности.\n\tОдновременно можно носить только одно оружие: ближнего боя или лук.");
         Console.WriteLine("Если вы наткнулись на врага, то начинается бой. Вы можете атаковать и защищаться. При выбора защиты, есть шанс до 40% полностью уклониться от атаки.");
         Console.WriteLine("\nПосле прочтения, нажмите любую кнопку.");
         Console.ReadKey();
@@ -126,7 +129,7 @@ class Program
         {
             bool dodged = false;
             Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
-            Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
+            Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}{GetAccuracyText(_gameInstance.Player.Weapon)}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
             switch (_gameInstance.Player.Effect)
             {
                 case StatusEffect.Frozen:
@@ -140,6 +143,11 @@ class Program
                     {
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            if (playerAtk.IsMiss)
+                            {
+                                Console.WriteLine("Вы промахнулись!");
+                                break;
+                            }
                             playerAtk = enemy.TakeDamage(playerAtk);
                             Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
                             break;
@@ -196,6 +204,15 @@ class Program
         }
     }
 
+    static string GetAccuracyText(IWeapon weapon)
+    {
+        if (weapon is Bow bow)
+        {
+            return $" (точность: {bow.Accuracy * 100:F0}%)";
+        }
+        return string.Empty;
+    }
+
     static void UseHealingPotion(IBaseItem healingPotion)
     {
         Console.WriteLine($"У вас сейчас {_gameInstance.Player.Hp:F0} HP. Хотите выпить зелье или выбросить его?\n\t1. Выпить\t2. Выбросить");
@@ -219,9 +236,10 @@ class Program
         {
             case Weapon weapon:
                 stringBuilder.AppendLine(
-                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
+                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}{GetAccuracyText(_gameInstance.Player.Weapon)}.")}");
                 stringBuilder.AppendLine(
-                    $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
+                    $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}{GetAccuracyText(weapon)}");
+                stringBuilder.AppendLine("Можно носить только одно оружие, при смене прежнее заменится.");
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
             case Armor armor:

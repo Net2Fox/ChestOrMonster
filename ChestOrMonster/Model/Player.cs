@@ -30,6 +30,10 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
+        if (Weapon is Bow bow && _random.NextDouble() >= bow.Accuracy)
+        {
+            return new DamageInfo(0, AttackType, StatusEffect.None, true);
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
