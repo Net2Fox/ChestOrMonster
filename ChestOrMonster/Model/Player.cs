@@ -7,6 +7,7 @@ public class Player : BaseEntity
 {
     public IWeapon Weapon { get; private set; }
     public IArmor Armor { get; private set; }
+    public IWeapon Bow { get; private set; }
     
     public override string Name { get; }
     public override double Hp { get; protected set; } = _maxHp;
@@ -45,6 +46,9 @@ public class Player : BaseEntity
                 break;
             case HealingPotion healingPotion:
                 Hp = _maxHp;
+                break;
+            case Bow bow:
+                Bow = bow;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(item), item, null);

@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case Weapon or Bow or Armor:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
@@ -172,7 +172,7 @@ class Program
             Thread.Sleep(15000);
             return false;
         }
-        
+
         Console.WriteLine($"Вы убили {enemy.Name}!");
         return true;
 
@@ -230,6 +230,13 @@ class Program
                 stringBuilder.AppendLine(
                     $"Характеристики новых доспехов: {armor.Name}, {armor.Def}");
                 stringBuilder.AppendLine("Хотите сменить доспехи или оставить текующие?");
+                break;
+            case Bow bow:
+                stringBuilder.AppendLine(
+                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Bow.Name}, {_gameInstance.Player.Bow.Damage}.")}");
+                stringBuilder.AppendLine(
+                    $"Характеристики нового оружия: {bow.Name}, {bow.Damage}");
+                stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
                 break;
         }
         stringBuilder.AppendLine("\t1. Сменить\t2. Оставить");
