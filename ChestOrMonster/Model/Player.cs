@@ -27,9 +27,15 @@ public class Player : BaseEntity
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
     }
-    
+
     public override DamageInfo Attack()
     {
+        // Лук может промахнуться: тогда урон равен 0
+        if (Weapon is Bow bow && !bow.IsHit())
+        {
+            return new DamageInfo(0, AttackType);
+        }
+
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
