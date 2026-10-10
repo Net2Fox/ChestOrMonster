@@ -101,7 +101,7 @@ class Program
         Console.WriteLine($"Вам выпал {item.Name}!");
         switch (item)
         {
-            case Weapon or Armor:
+            case Weapon or Bow or Armor:
                 ChangeEquipment(item);
                 break;
             case HealingPotion:
@@ -140,7 +140,17 @@ class Program
                     {
                         case 1:
                             DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            if (playerAtk.Amount == 0)
+                            {
+                                Console.WriteLine("Вы промахнулись!");
+                                break;
+                            }
                             playerAtk = enemy.TakeDamage(playerAtk);
+                            if (enemy is Ghost && playerAtk.Amount == 0)
+                            {
+                                Console.WriteLine("Ваш удар прошёл сквозь призрака!");
+                                break;
+                            }
                             Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
                             break;
                         case 2:
@@ -223,6 +233,13 @@ class Program
                 stringBuilder.AppendLine(
                     $"Характеристики нового оружия: {weapon.Name}, {weapon.Damage}");
                 stringBuilder.AppendLine("Хотите сменить оружие или оставить текущее?");
+                break;
+            case Bow bow:
+                stringBuilder.AppendLine(
+                    $"{($"Ваши характеристики сейчас:\n{_gameInstance.Player.Weapon.Name}, {_gameInstance.Player.Weapon.Damage}.")}");
+                stringBuilder.AppendLine(
+                    $"Характеристики нового лука: {bow.Name}, {bow.Damage}, точность {bow.Accuracy:P0}");
+                stringBuilder.AppendLine("Хотите сменить оружие на лук или оставить текущее?");
                 break;
             case Armor armor:
                 stringBuilder.AppendLine(

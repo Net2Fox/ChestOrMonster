@@ -27,9 +27,13 @@ public class Player : BaseEntity
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
     }
-    
+
     public override DamageInfo Attack()
     {
+        if (Weapon is Bow bow && !bow.IsHit())
+        {
+            return new DamageInfo(0, AttackType);
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
@@ -42,6 +46,9 @@ public class Player : BaseEntity
                 break;
             case Weapon weapon:
                 Weapon = weapon;
+                break;
+            case Bow bow:
+                Weapon = bow;
                 break;
             case HealingPotion healingPotion:
                 Hp = _maxHp;
