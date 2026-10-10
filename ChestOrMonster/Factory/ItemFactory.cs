@@ -16,6 +16,12 @@ public static class ItemFactory
         ("Магический посох", 15)
     ];
 
+    private static readonly (string Name, double Damage, double Accuracy)[] Bows =
+    [
+        ("Длинный лук", 8, 0.6),
+        ("Короткий лук", 6, 0.9),
+    ];
+
     private static readonly (string Name, double Def)[] Armors =
     [
         ("Кожаная броня", 3),
@@ -31,14 +37,22 @@ public static class ItemFactory
         {
             0 => CreateRandomWeapon(),
             1 => CreateRandomArmor(),
-            2 => new HealingPotion()
+            2 => new HealingPotion(),
         };
     }
 
-    private static Weapon CreateRandomWeapon()
+    private static IWeapon CreateRandomWeapon()
     {
-        var template = Weapons[_random.Next(0, Weapons.Length)];
-        return new Weapon(template.Name, template.Damage);
+        if (_random.NextDouble() < 0.5)
+        {
+            var template = Bows[_random.Next(0, Bows.Length)];
+            return new Bows(template.Name, template.Damage, template.Accuracy);
+        }
+        else
+        {
+            var template = Weapons[_random.Next(0, Weapons.Length)];
+            return new Weapon(template.Name, template.Damage);
+        }
     }
     
     private static Armor CreateRandomArmor()
