@@ -12,4 +12,5 @@ public class Weapon : IWeapon
         Name = name;
         Damage = damage;
     }
+
 }

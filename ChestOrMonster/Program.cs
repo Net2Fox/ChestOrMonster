@@ -125,6 +125,7 @@ class Program
         while (_gameInstance.Player.Hp > 0 & enemy.Hp > 0)
         {
             bool dodged = false;
+            bool poisoned = false;
             Console.WriteLine($"Характеристики врага:\n\tИмя: {enemy.Name}\n\tHP: {enemy.Hp:F0}\n\tАтака: {enemy.Atk}\n\tЗащита: {enemy.Def}");
             Console.WriteLine($"Ваши характеристики:\n\tHP: {_gameInstance.Player.Hp:F0}\n\tАтака: {_gameInstance.Player.Weapon?.Damage}\n\tЗащита: {_gameInstance.Player.Armor?.Def}");
             switch (_gameInstance.Player.Effect)
@@ -133,9 +134,35 @@ class Program
                     Console.WriteLine("Вы заморожены! Пропуск вашего хода...");
                     _gameInstance.Player.UpdateStatusEffect();
                     break;
-                case StatusEffect.None:
+                case StatusEffect.Poisoned:
+                    Console.WriteLine("Аттака с отравлением, повышенный урон!");
+                    poisoned = true;
+
                     Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
                     int playerChoice = UserChoice(1, 2);
+                    switch (playerChoice)
+                    {
+                        case 1:
+                            DamageInfo playerAtk = _gameInstance.Player.Attack();
+                            playerAtk = enemy.TakeDamage(playerAtk);
+                            Console.WriteLine($"Вы нанесли врагу {playerAtk.Amount:F2} урона!");
+                            break;
+                        case 2:
+                            if (_gameInstance.Player.Dodge())
+                            {
+                                Console.WriteLine("Вы уклонились от атаки врага!");
+                                dodged = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Вы не смогли уклониться!");
+                            }
+                            break;
+                    }
+                    break;
+                case StatusEffect.None:
+                    Console.WriteLine("Выберите действие:\n\t1. Атаковать\n\t2. Защищаться");
+                    playerChoice = UserChoice(1, 2);
                     switch (playerChoice)
                     {
                         case 1:
@@ -160,6 +187,13 @@ class Program
             if (enemy.Hp > 0 && !dodged)
             {
                 DamageInfo enemyAtk = enemy.Attack();
+                if (poisoned)
+                {
+                    enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
+                    enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
+
+                    Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount * 2:F2}! Отравление - штука болючая");
+                }
                 enemyAtk = _gameInstance.Player.TakeDamage(enemyAtk);
                 Console.WriteLine($"Враг нанёс вам {enemyAtk.Amount:F2}!");
             }

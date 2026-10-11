@@ -30,6 +30,18 @@ public class Player : BaseEntity
     
     public override DamageInfo Attack()
     {
+        if (Weapon.Name == "Межгалактический лук") 
+        {
+            if (_random.NextDouble() <= 0.01)
+            {
+                return new DamageInfo(Weapon.Damage, AttackType);
+            }
+            else 
+            {
+                return new DamageInfo(1, AttackType);
+            }
+        }
+
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 
