@@ -27,9 +27,17 @@ public class Player : BaseEntity
         AttackType = DamageType.Usual;
         Effect = StatusEffect.None;
     }
-    
+
     public override DamageInfo Attack()
     {
+        if (Weapon is Bow bow)
+        {
+            if (_random.NextDouble() > bow.Accuracy)
+            {
+                Console.WriteLine("Игрок промахнулся из лука!");
+                return new DamageInfo(0, AttackType);
+            }
+        }
         return new DamageInfo(Weapon.Damage, AttackType);
     }
 

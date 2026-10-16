@@ -37,6 +37,10 @@ public static class ItemFactory
 
     private static Weapon CreateRandomWeapon()
     {
+        if (_random.Next(0, 4) == 0)
+        {
+            return new Bow("Длинный лук", 8, 0.7);
+        }
         var template = Weapons[_random.Next(0, Weapons.Length)];
         return new Weapon(template.Name, template.Damage);
     }
